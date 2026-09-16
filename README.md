@@ -33,10 +33,11 @@ vercel --prod
 | `index.html` | Marketing page markup, copy, Lordicon embeds         |
 | `styles.css` | Marketing design system, layout, responsive, motion  |
 | `app.js`     | Landing interactions (routed into the demo app)      |
-| `app.html`   | Self-serve demo app: signin, onboarding, workspace   |
-| `product.css`| Product design system + responsive app shell         |
-| `product.js` | Hash router, demo state (localStorage), fake async   |
-| `assets/connectors/` | Connector brand SVGs (svgl + flat Google G)  |
+| `app.html`   | Self-serve demo app shell: signin, onboarding, admin |
+| `product.css`| shadcn-style zinc theme + responsive app shell       |
+| `product.js` | Hash router + 24 views, demo state (localStorage)    |
+| `assets/icons.js` | Inline sidebar icons (Lucide, ISC — see lucide.dev) |
+| `assets/connectors/` | Connector brand SVG fallbacks (svgl + flat Google G) |
 | `vercel.json`| Static hosting config                                |
 
 Demo flow: landing “Get started” → `app.html` fake Google sign-in →

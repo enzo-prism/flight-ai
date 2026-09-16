@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flight AI — Sign in</title>
   <meta name="description" content="Sign in to Flight AI and launch your support and sales pilot.">
-  <meta name="theme-color" content="#0B1B33">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B1B33'/%3E%3Cpath d='M8 16.5 23 9l-4.5 14-4-6.5-6.5-1z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#18181B">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2318181B'/%3E%3Cpath d='M8 16.5 23 9l-4.5 14-4-6.5-6.5-1z' fill='none' stroke='white' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="product.css">
   <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
 </head>
@@ -16,17 +16,19 @@
   <!-- ============ SIGN IN ============ -->
   <main id="main" class="view" data-view="signin" tabindex="-1" hidden>
     <div class="auth-wrap">
-      <a class="brand" href="index.html" aria-label="Flight AI home">
-        <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
-          colors="primary:#0B1B33,secondary:#1F6FEB" style="width:30px;height:30px" aria-hidden="true"></lord-icon>
+      <span class="brand">
+        <span class="logo-tile" aria-hidden="true">
+          <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
+            colors="primary:#FFFFFF,secondary:#A1A1AA" style="width:18px;height:18px"></lord-icon>
+        </span>
         <span>Flight&nbsp;AI</span>
-      </a>
+      </span>
       <div class="auth-card">
         <h1>Welcome aboard.</h1>
         <p class="lede-sm">Sign in to launch your Flight AI pilot. Live in days — this demo takes seconds.</p>
         <p class="email-chip" id="emailChip" hidden>Signed up as <strong id="emailChipAddr"></strong></p>
         <button class="btn google" id="googleBtn" type="button">
-          <img src="assets/connectors/google.svg" alt="" width="20" height="20" aria-hidden="true">
+          <img src="assets/connectors/google.svg" alt="" width="18" height="18" aria-hidden="true">
           <span id="googleLabel">Continue with Google</span>
         </button>
         <button class="btn outline wide" id="ssoBtn" type="button">Continue with SSO</button>
@@ -39,11 +41,13 @@
   <!-- ============ ONBOARDING 1: CONNECT ============ -->
   <main id="mainConnect" class="view" data-view="connect" tabindex="-1" hidden>
     <div class="ob-wrap">
-      <a class="brand" href="index.html" aria-label="Flight AI home">
-        <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
-          colors="primary:#0B1B33,secondary:#1F6FEB" style="width:28px;height:28px" aria-hidden="true"></lord-icon>
+      <span class="brand">
+        <span class="logo-tile" aria-hidden="true">
+          <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
+            colors="primary:#FFFFFF,secondary:#A1A1AA" style="width:18px;height:18px"></lord-icon>
+        </span>
         <span>Flight&nbsp;AI</span>
-      </a>
+      </span>
       <ol class="stepper" aria-label="Onboarding progress">
         <li class="now" aria-current="step"><span>1</span> Connect your context</li>
         <li><span>2</span> Choose agents</li>
@@ -53,20 +57,23 @@
       <div class="grid" id="obGrid" role="group" aria-label="Available integrations"></div>
       <p class="micro">Your control tower stays the same — Flight just runs it faster.</p>
       <div class="ob-cta">
-        <button class="btn solid" id="obContinue" type="button" disabled>Continue <span aria-hidden="true">→</span></button>
+        <button class="btn solid" id="obContinue" type="button" disabled aria-describedby="obContinueHint">Continue <span aria-hidden="true">→</span></button>
         <button class="btn danger-ghost" id="obSkip" type="button">Skip for now <span aria-hidden="true">→</span></button>
       </div>
+      <p class="sr-only" id="obContinueHint">Add at least one integration to continue.</p>
     </div>
   </main>
 
   <!-- ============ ONBOARDING 2: AGENTS ============ -->
   <main id="mainAgents" class="view" data-view="agents" tabindex="-1" hidden>
     <div class="ob-wrap narrow">
-      <a class="brand" href="index.html" aria-label="Flight AI home">
-        <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
-          colors="primary:#0B1B33,secondary:#1F6FEB" style="width:28px;height:28px" aria-hidden="true"></lord-icon>
+      <span class="brand">
+        <span class="logo-tile" aria-hidden="true">
+          <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
+            colors="primary:#FFFFFF,secondary:#A1A1AA" style="width:18px;height:18px"></lord-icon>
+        </span>
         <span>Flight&nbsp;AI</span>
-      </a>
+      </span>
       <ol class="stepper" aria-label="Onboarding progress">
         <li class="done"><span>✓</span> Connect your context</li>
         <li class="now" aria-current="step"><span>2</span> Choose agents</li>
@@ -76,7 +83,7 @@
       <div class="agent-pick">
         <div class="pick-card">
           <lord-icon src="https://cdn.lordicon.com/lemrzdkt.json" trigger="hover"
-            colors="primary:#0B1B33,secondary:#1F6FEB" style="width:44px;height:44px" aria-hidden="true"></lord-icon>
+            colors="primary:#18181B,secondary:#71717A" style="width:40px;height:40px" aria-hidden="true"></lord-icon>
           <div>
             <h2>Support Agent</h2>
             <p class="micro">Takeoff for every ticket. Resolves in your voice; escalates cleanly.</p>
@@ -85,7 +92,7 @@
         </div>
         <div class="pick-card">
           <lord-icon src="https://cdn.lordicon.com/lagziwcr.json" trigger="hover"
-            colors="primary:#0B1B33,secondary:#1F6FEB" style="width:44px;height:44px" aria-hidden="true"></lord-icon>
+            colors="primary:#18181B,secondary:#71717A" style="width:40px;height:40px" aria-hidden="true"></lord-icon>
           <div>
             <h2>Sales Agent</h2>
             <p class="micro">Pipeline that flies itself. Qualifies, books, logs to CRM.</p>
@@ -109,174 +116,53 @@
 
   <!-- ============ WORKSPACE ============ -->
   <div id="viewApp" class="view" data-view="app" hidden>
-    <aside class="side" aria-label="Workspace">
-      <a class="brand" href="index.html" aria-label="Flight AI home">
-        <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
-          colors="primary:#0B1B33,secondary:#1F6FEB" style="width:26px;height:26px" aria-hidden="true"></lord-icon>
-        <span>Flight&nbsp;AI</span>
-      </a>
-      <nav class="side-nav">
-        <a class="side-link" href="#/app/overview" data-tab="overview">Overview</a>
-        <a class="side-link" href="#/app/connections" data-tab="connections">Connections</a>
-        <a class="side-link" href="#/app/agents" data-tab="agents">Agents</a>
-        <a class="side-link" href="#/app/billing" data-tab="billing">Billing</a>
-      </nav>
+    <div class="side-backdrop" id="sideBackdrop" hidden></div>
+    <aside class="side" id="sideNav" aria-label="Workspace">
+      <div class="side-head">
+        <span class="logo-tile" aria-hidden="true">
+          <lord-icon src="https://cdn.lordicon.com/zmaqxoex.json" trigger="hover"
+            colors="primary:#FFFFFF,secondary:#A1A1AA" style="width:18px;height:18px"></lord-icon>
+        </span>
+        <span class="side-id"><strong>Flight AI</strong><small id="wsId">acme</small></span>
+        <button class="icon-btn" id="sideCollapse" type="button" aria-label="Close navigation"></button>
+      </div>
+      <nav class="side-nav" id="sideNavList"></nav>
       <div class="side-foot">
-        <a class="btn gold wide small" href="#/app/billing" data-tab="billing">Upgrade</a>
-        <button class="btn danger-ghost wide small" id="resetDemo" type="button">Reset demo</button>
+        <a class="btn solid wide small" href="#/app/agent-usage" data-tab="agent-usage">Upgrade</a>
+        <div class="user-row">
+          <span class="avatar sm" id="sideAvatar">AR</span>
+          <span class="user-id"><strong id="sideName">Alex Rivera</strong><small id="sideEmail">pilot@flight.ai</small></span>
+          <button class="icon-btn" id="sideMenuBtn" type="button" aria-label="Account menu" aria-haspopup="menu" aria-expanded="false">⋮</button>
+        </div>
+        <div class="avatar-menu side-menu" id="sideMenu" role="menu" hidden>
+          <button class="menu-link" role="menuitem" id="signOutBtn2" type="button">Sign out</button>
+          <button class="menu-link" role="menuitem" id="resetDemo2" type="button">Reset demo</button>
+        </div>
       </div>
     </aside>
     <div class="main-col">
       <header class="topbar">
-        <p class="ws-name" id="wsName">Acme workspace</p>
-        <span class="plan-pill" id="planPill">Free pilot</span>
-        <a class="btn gold small top-upgrade" href="#/app/billing" data-tab="billing">Upgrade</a>
+        <button class="icon-btn" id="sideOpen" type="button" aria-label="Open navigation"></button>
+        <p class="crumb"><strong id="crumbTitle">Home</strong> <span class="ws-pill" id="wsPill">acme</span></p>
+        <a class="tower-link" href="#/app/tower" data-tab="tower" aria-label="Tower"><span id="towerIcon" aria-hidden="true"></span> <span class="tower-txt">Tower</span></a>
+        <a class="btn solid small top-upgrade" href="#/app/agent-usage" data-tab="agent-usage">Upgrade</a>
         <div class="avatar-wrap">
-          <button class="avatar" id="avatarBtn" aria-haspopup="true" aria-expanded="false" type="button">AR</button>
-          <div class="avatar-menu" id="avatarMenu" hidden>
+          <button class="avatar" id="avatarBtn" aria-haspopup="menu" aria-expanded="false" type="button">AR</button>
+          <div class="avatar-menu" id="avatarMenu" role="menu" hidden>
             <p class="micro"><strong id="menuName">Alex Rivera</strong><br><span id="menuEmail">pilot@flight.ai</span></p>
-            <a class="menu-link" href="#/app/billing" data-tab="billing">Billing &amp; plans</a>
-            <button class="menu-link" id="signOutBtn" type="button">Sign out</button>
+            <a class="menu-link" role="menuitem" href="#/app/agent-usage" data-tab="agent-usage">Billing &amp; plans</a>
+            <button class="menu-link" role="menuitem" id="signOutBtn" type="button">Sign out</button>
+            <button class="menu-link" role="menuitem" id="resetDemo" type="button">Reset demo</button>
           </div>
         </div>
       </header>
       <main class="content" id="mainApp" tabindex="-1">
-        <section id="tabOverview" data-tabpanel="overview" hidden>
-          <h1 id="greetTitle">Good morning.</h1>
-          <p class="lede-sm" id="greetSub">Here’s your flight deck.</p>
-          <div class="banner" id="usageBanner">
-            <p><strong>You’re at 82% of free resolutions.</strong> Upgrade to Growth for uninterrupted autopilot.</p>
-            <a class="btn solid small" href="#/app/billing" data-tab="billing">See plans</a>
-          </div>
-          <div class="stats">
-            <div class="stat"><p class="num">68%</p><p class="cap">auto-resolved</p></div>
-            <div class="stat"><p class="num">41s</p><p class="cap">median first response</p></div>
-            <div class="stat"><p class="num">12</p><p class="cap">meetings booked</p></div>
-            <div class="stat"><p class="num">4.8/5</p><p class="cap">CSAT</p></div>
-          </div>
-          <div class="panels">
-            <div class="panel">
-              <div class="panel-head"><h2>Live activity</h2><span class="micro" id="feedNote">Updated just now</span></div>
-              <ul class="feed" id="feedList"></ul>
-            </div>
-            <div class="panel">
-              <div class="panel-head"><h2>Agent status</h2><a class="textlink" href="#/app/agents" data-tab="agents">Manage →</a></div>
-              <div id="agentStatus"></div>
-            </div>
-            <div class="panel">
-              <div class="panel-head"><h2>Connections</h2><a class="textlink" href="#/app/connections" data-tab="connections">Connect more →</a></div>
-              <p id="ovConnSummary" class="micro"></p>
-              <div class="mini-logos" id="ovLogos"></div>
-            </div>
-          </div>
-        </section>
-        <section id="tabConnections" data-tabpanel="connections" hidden>
-          <h1>Connections.</h1>
-          <p class="lede-sm">One click per tool. Flight syncs history and keeps everything in formation.</p>
-          <div class="conn-tools">
-            <label class="sr-only" for="connSearch">Search integrations</label>
-            <input id="connSearch" type="search" placeholder="Search integrations…" autocomplete="off">
-            <p class="micro" id="connCount"></p>
-          </div>
-          <div id="connEmpty" class="empty" hidden>
-            <lord-icon src="https://cdn.lordicon.com/vlgbdagb.json" trigger="hover"
-              colors="primary:#0B1B33,secondary:#1F6FEB" style="width:52px;height:52px" aria-hidden="true"></lord-icon>
-            <p><strong>No connections yet.</strong> Add your first to ground Flight in real context.</p>
-          </div>
-          <p id="connNoMatch" class="micro" hidden>No flights on this route yet.</p>
-          <div class="grid wide" id="connGrid"></div>
-        </section>
-        <section id="tabAgents" data-tabpanel="agents" hidden>
-          <h1>Agents.</h1>
-          <p class="lede-sm">Your crew stays in control. Set guardrails, then let Flight fly.</p>
-          <div class="agent-pick" style="margin-top:18px">
-            <div class="pick-card">
-              <lord-icon src="https://cdn.lordicon.com/lemrzdkt.json" trigger="hover"
-                colors="primary:#0B1B33,secondary:#1F6FEB" style="width:44px;height:44px" aria-hidden="true"></lord-icon>
-              <div>
-                <h2>Support Agent <span class="mode-pill on" id="wSupportPill">Copilot</span></h2>
-                <p class="micro">Answers in seconds across chat and email.</p>
-              </div>
-              <button class="switch" id="wSupport" role="switch" aria-checked="true" aria-label="Support Agent" type="button"><span></span></button>
-            </div>
-            <div class="pick-card">
-              <lord-icon src="https://cdn.lordicon.com/lagziwcr.json" trigger="hover"
-                colors="primary:#0B1B33,secondary:#1F6FEB" style="width:44px;height:44px" aria-hidden="true"></lord-icon>
-              <div>
-                <h2>Sales Agent <span class="mode-pill on" id="wSalesPill">Copilot</span></h2>
-                <p class="micro">Qualifies in under a minute, books and logs to CRM.</p>
-              </div>
-              <button class="switch" id="wSales" role="switch" aria-checked="false" aria-label="Sales Agent" type="button"><span></span></button>
-            </div>
-          </div>
-          <div class="guard">
-            <div>
-              <label for="threshold"><strong>Approval threshold</strong></label>
-              <p class="micro">Refunds and credits above this need crew approval.</p>
-            </div>
-            <select id="threshold">
-              <option value="50">Require approval above $50</option>
-              <option value="100" selected>Require approval above $100</option>
-              <option value="250">Require approval above $250</option>
-              <option value="500">Require approval above $500</option>
-            </select>
-          </div>
-          <div class="mode-row">
-            <div>
-              <strong>Autonomy mode</strong>
-              <p class="micro" id="modeHelp">Copilot — AI drafts, crew approves.</p>
-            </div>
-            <div class="seg" role="group" aria-label="Autonomy mode">
-              <button type="button" id="modeCopilot" aria-pressed="true">Copilot</button>
-              <button type="button" id="modeAuto" aria-pressed="false">Autopilot</button>
-            </div>
-          </div>
-          <div class="panel" style="margin-top:16px">
-            <div class="panel-head"><h2>Recent flights</h2><button class="textlink" id="auditLink" type="button" style="border:none;background:none;cursor:pointer;font-size:1rem">View audit log</button></div>
-            <div class="table-wrap"><table class="flights">
-              <thead><tr><th>Flight</th><th>Agent</th><th>Summary</th><th>Result</th><th>Time</th></tr></thead>
-              <tbody id="flightsBody"></tbody>
-            </table></div>
-          </div>
-        </section>
-        <section id="tabBilling" data-tabpanel="billing" hidden>
-          <h1>Billing.</h1>
-          <p class="lede-sm">Free pilot, no card required. Scale when you’re ready for cruising altitude.</p>
-          <div class="meters">
-            <div class="meter"><p><strong>Resolutions</strong> <span id="meterResTxt">82 / 100</span></p><div class="bar"><span id="meterRes" style="width:82%"></span></div></div>
-            <div class="meter"><p><strong>Qualified meetings</strong> <span id="meterMeetTxt">7 / 10</span></p><div class="bar"><span id="meterMeet" style="width:70%"></span></div></div>
-            <p class="micro">Seats Unlimited — no per-seat fees.</p>
-          </div>
-          <div class="plans">
-            <div class="plan">
-              <h2>Free Pilot</h2><p class="price">$0</p>
-              <ul><li>100 resolutions + 10 meetings</li><li>Up to 3 connections</li><li>Copilot mode</li><li>Community support</li></ul>
-              <button class="btn outline wide small" id="btnPilot" type="button" disabled>Current plan</button>
-            </div>
-            <div class="plan hot">
-              <h2>Growth</h2><p class="price">$249<span>/mo</span></p>
-              <ul><li>1,000 resolutions + 50 meetings</li><li>Unlimited connections</li><li>Autopilot + audit log</li><li>Slack support</li></ul>
-              <button class="btn solid wide small" id="btnGrowth" type="button">Upgrade to Growth</button>
-            </div>
-            <div class="plan">
-              <h2>Enterprise</h2><p class="price">Custom</p>
-              <ul><li>SSO/SAML + EU residency</li><li>Custom retention + SLA 99.99%</li><li>Dedicated crew</li><li>Security review support</li></ul>
-              <a class="btn outline wide small" href="mailto:sales@flight.ai?subject=Flight%20AI%20Enterprise">Talk to sales</a>
-            </div>
-          </div>
-          <p class="micro center">Per-resolution for Support, per-qualified-meeting for Sales. No per-seat fees.</p>
-        </section>
+        <div id="tabBody"></div>
       </main>
       <footer class="app-foot">
-        <p class="micro">Flight AI demo · All data is fictional and stays in your browser · <a class="textlink" href="index.html">Back to site</a></p>
+        <p class="micro">Flight AI demo · All data is fictional and stays in your browser · Icons by <a class="textlink" href="https://lucide.dev" target="_blank" rel="noreferrer">Lucide</a> (ISC) · <a class="textlink" href="index.html">Back to site</a></p>
       </footer>
     </div>
-    <nav class="tabs" aria-label="Workspace">
-      <a href="#/app/overview" data-tab="overview">Overview</a>
-      <a href="#/app/connections" data-tab="connections">Connect</a>
-      <a href="#/app/agents" data-tab="agents">Agents</a>
-      <a href="#/app/billing" data-tab="billing">Billing</a>
-    </nav>
   </div>
 
   <!-- ============ MODALS ============ -->
@@ -326,7 +212,19 @@
       </div>
     </div>
   </div>
+  <div class="modal" id="formModal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+      <h2 id="formTitle">Add item</h2>
+      <div id="formFields"></div>
+      <p class="micro form-err" id="formErr" hidden></p>
+      <div class="modal-cta">
+        <button class="btn outline" id="formCancel" type="button">Cancel</button>
+        <button class="btn solid" id="formOk" type="button">Save</button>
+      </div>
+    </div>
+  </div>
   <div id="toasts" aria-live="polite"></div>
+  <script src="assets/icons.js"></script>
   <script src="product.js"></script>
 </body>
 </html>
