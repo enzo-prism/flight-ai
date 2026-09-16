@@ -225,8 +225,6 @@ p.narrow { max-width: 36rem; margin-left: auto; margin-right: auto; }
   font-size: 1rem; font-family: inherit;
 }
 .pilot input::placeholder { color: #7c8db0; }
-.pilot-success p { margin: 26px auto 18px; color: #eaf0fa; }
-.pilot-success strong { color: #fff; font-size: 1.15rem; }
 .demo-link { color: #8fb4f8; font-weight: 600; text-decoration: none; white-space: nowrap; }
 .demo-link:hover { text-decoration: underline; }
 .light-micro { color: #8fa0c2; margin: 0; }

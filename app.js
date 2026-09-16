@@ -2,13 +2,6 @@
   document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Looping icons become click-to-play under reduced motion
-  if (reduceMotion) {
-    document.querySelectorAll('lord-icon[trigger="loop"]').forEach((el) => {
-      el.setAttribute('trigger', 'click');
-    });
-  }
-
   // Sticky nav hairline on scroll
   const nav = document.querySelector('.nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
@@ -108,10 +101,9 @@
     }
   }
 
-  // Pilot form: front-end success state (mailto fallback when JS is off)
+  // Pilot form routes into the self-serve app (mailto fallback when JS is off)
   const form = document.getElementById('pilotForm');
-  const success = document.getElementById('pilotSuccess');
-  if (form && success) {
+  if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const input = document.getElementById('pilotEmail');
@@ -119,8 +111,8 @@
         input.reportValidity();
         return;
       }
-      form.hidden = true;
-      success.hidden = false;
+      const email = input ? input.value.trim() : '';
+      window.location.href = 'app.html' + (email ? `?email=${encodeURIComponent(email)}` : '');
     });
   }
 })();
