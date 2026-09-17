@@ -76,7 +76,12 @@
   const TITLES = {};
   NAV.forEach((s) => s.items.forEach((i) => { TITLES[i.tab] = i.label; }));
 
-  /* ---------- Catalog (brand icons via svgl API, local fallback) ---------- */
+  /* ---------- Catalog (brand icons via svgl API route URLs, local fallback) ----------
+     Routes resolved via https://api.svgl.app?search=<title> (docs: https://svgl.app/docs/api).
+     Uses each entry's canonical `route` file under https://svgl.app/library/ — the
+     /library bytes keep xmlns so they render in <img>; the optimized /svg/ API
+     endpoint strips xmlns and fails to decode. Stripe uses the icon (stripe.svg),
+     not the wordmark, so it reads at tile size. */
   const CONNECTORS = [
     { id: 'front', name: 'Front', cat: 'Helpdesk', blurb: 'Sync tickets + shared inbox',
       perms: ['Read conversations and inboxes', 'Send replies as your team', 'Read tags, teammates, and rules'] },
@@ -108,12 +113,12 @@
       perms: ['Read approved tables', 'Run saved analytics queries', 'Never writes without approval'] },
   ];
   const byId = (id) => CONNECTORS.find((c) => c.id === id);
-  const SVG_API = 'https://api.svgl.app/svg/';
+  const SVG_API = 'https://svgl.app/library/';
   const SVG_FILE = {
     front: 'front.svg', whatsapp: 'whatsapp-icon.svg', discord: 'discord.svg',
     salesforce: 'salesforce.svg', 'apollo-io': 'apollo-io.svg', slack: 'slack.svg',
     'microsoft-teams': 'microsoft-teams.svg', gmail: 'gmail.svg', zoom: 'zoom.svg',
-    shopify: 'shopify.svg', stripe: 'stripe_wordmark.svg', notion: 'notion.svg',
+    shopify: 'shopify.svg', stripe: 'stripe.svg', notion: 'notion.svg',
     linear: 'linear.svg', supabase: 'supabase.svg',
   };
   const SVG_INIT = {
