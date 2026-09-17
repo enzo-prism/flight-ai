@@ -30,7 +30,7 @@ vercel --prod
 
 | File         | Purpose                                              |
 | ------------ | ---------------------------------------------------- |
-| `index.html` | Marketing page markup, copy, Lordicon embeds         |
+| `index.html` | Marketing page markup, copy, Lordicon embeds, real Mach 1 customer proof |
 | `styles.css` | Marketing design system, layout, responsive, motion  |
 | `app.js`     | Landing interactions (routed into the demo app)      |
 | `app.html`   | Self-serve demo app shell: signin, onboarding, admin |

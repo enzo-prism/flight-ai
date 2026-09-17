@@ -201,6 +201,14 @@ p.narrow { max-width: 36rem; margin-left: auto; margin-right: auto; }
 .quote blockquote { margin: 14px 0 20px; font-size: 1.18rem; line-height: 1.45; color: var(--ink); letter-spacing: -0.012em; }
 .quote figcaption { display: flex; align-items: center; gap: 12px; font-size: 0.92rem; color: var(--muted); }
 .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 0.78rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.customers { margin-top: 60px; text-align: center; }
+.cust-cap { margin: 0; color: var(--muted); font-size: 0.95rem; font-weight: 600; }
+.cust-logos { list-style: none; display: flex; flex-wrap: wrap; gap: 18px 44px; justify-content: center; align-items: center; margin: 22px 0 0; padding: 0; }
+.cust-logos img { height: 26px; width: auto; max-width: 150px; object-fit: contain; }
+.story-title { font-size: 1.18rem; line-height: 1.45; letter-spacing: -0.012em; margin: 14px 0 12px; color: var(--ink); }
+.story-facts { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 8px; }
+.story-facts li { font-size: 0.95rem; color: var(--muted); }
+.story-facts strong { color: var(--ink); }
 
 /* FAQ */
 .faq details { border-bottom: 1px solid var(--line); padding: 4px 0; }
