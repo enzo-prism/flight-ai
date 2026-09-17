@@ -148,7 +148,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .strip-head p { margin: 0; flex: 1; }
 .strip-head strong { color: var(--ink); }
 .logos { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 34px; margin: 26px 0 0; padding: 0; }
-.logos li { font-weight: 700; font-size: 1.12rem; color: #68788f; letter-spacing: -0.01em; }
+.logos li { font-weight: 700; font-size: 1.12rem; color: #68788f; letter-spacing: -0.01em; display: inline-flex; align-items: center; gap: 10px; }
+.logos img { width: 24px; height: 24px; object-fit: contain; flex: none; }
 .logos li.more { color: var(--accent-deep); font-size: 1rem; }
 
 /* Split sections */

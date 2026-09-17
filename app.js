@@ -2,6 +2,12 @@
   document.documentElement.classList.add('js');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Lordicon loops autoplay per section (sequenced via delay attributes).
+  // Under reduced motion, keep icons hover-only instead of looping.
+  if (reduceMotion) {
+    document.querySelectorAll('lord-icon[trigger="loop"]').forEach((el) => el.setAttribute('trigger', 'hover'));
+  }
+
   // Sticky nav hairline on scroll
   const nav = document.querySelector('.nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);

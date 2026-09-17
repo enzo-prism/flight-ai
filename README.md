@@ -37,7 +37,7 @@ vercel --prod
 | `product.css`| shadcn-style zinc theme + responsive app shell       |
 | `product.js` | Hash router + 24 views, demo state (localStorage)    |
 | `assets/icons.js` | Inline sidebar icons (Lucide, ISC — see lucide.dev) |
-| `assets/connectors/` | Connector brand SVG fallbacks (svgl + flat Google G) |
+| `assets/connectors/` | Brand SVGs: svgl routes + Simple Icons (Zendesk/Intercom/HubSpot/Snowflake, absent from svgl) + flat Google G. Demo-app fallbacks + homepage strip logos |
 | `vercel.json`| Static hosting config                                |
 
 Demo flow: landing “Get started” → `app.html` fake Google sign-in →

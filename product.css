@@ -45,7 +45,11 @@ body {
   margin: 0; font-family: var(--font); color: var(--body); background: var(--background);
   font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased;
 }
-body.auth { background: var(--card); }
+body.auth {
+  background:
+    radial-gradient(640px 320px at 50% -60px, #f4f4f5 0%, rgba(244, 244, 245, 0) 70%),
+    var(--card);
+}
 h1 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em; color: var(--foreground); margin: 0 0 4px; }
 h2 { font-size: 1rem; font-weight: 600; letter-spacing: -0.025em; color: var(--foreground); margin: 0 0 0.4em; }
 h3 { font-size: 0.9375rem; font-weight: 600; color: var(--foreground); margin: 0 0 0.4em; }
@@ -107,8 +111,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--ring); box-shado
 
 /* Sign in */
 .auth-wrap { max-width: 400px; margin: 0 auto; padding: 72px 24px 60px; display: grid; gap: 24px; justify-items: center; }
-.auth-card { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 32px 28px 26px; display: grid; gap: 10px; background: #fff; }
-.auth-card h1 { margin-bottom: 0; }
+.auth-card { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 34px 30px 28px; display: grid; gap: 12px; background: #fff; }
+.auth-card h1 { margin-bottom: 0; font-size: 1.375rem; }
+.auth-card .btn { min-height: 44px; }
+.divider { display: flex; align-items: center; gap: 12px; color: var(--faint); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+.divider::before, .divider::after { content: ""; height: 1px; background: var(--border); flex: 1; }
 .email-chip { background: var(--muted-bg); border-radius: 8px; padding: 8px 12px; font-size: 0.8rem; margin: 0; }
 
 /* Onboarding */
