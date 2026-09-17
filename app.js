@@ -86,18 +86,32 @@
   const mailPre = document.getElementById('mailPre');
   if (mailStage && mailPre) {
     const TIERS = [
-      { max: 340, name: 'low', cols: 91, rows: 29 },
-      { max: 500, name: 'medium', cols: 118, rows: 38 },
+      { max: 450, name: 'low', cols: 91, rows: 29 },
+      { max: 800, name: 'medium', cols: 118, rows: 38 },
       { max: Infinity, name: 'high', cols: 146, rows: 46 },
     ];
     const saveData = navigator.connection && navigator.connection.saveData;
-    const stageH = mailStage.clientHeight || window.innerHeight;
-    const tier = saveData ? TIERS[0] : TIERS.find((t) => stageH < t.max);
-    const fit = () => {
-      const fs = Math.max(mailStage.clientHeight / tier.rows, 8);
-      mailPre.style.fontSize = fs.toFixed(2) + 'px';
+    const stageW = mailStage.clientWidth || window.innerWidth;
+    const tier = saveData ? TIERS[0] : TIERS.find((t) => stageW < t.max);
+    let advanceRatio = 0.6;
+    const measureAdvance = () => {
+      try {
+        const cs = getComputedStyle(mailPre);
+        const cx = document.createElement('canvas').getContext('2d');
+        cx.font = cs.font;
+        const w = cx.measureText('0'.repeat(100)).width;
+        const fs = parseFloat(cs.fontSize);
+        if (w > 0 && fs > 0) advanceRatio = (w / 100) / fs;
+      } catch (_) { /* keep 0.6 estimate */ }
     };
+    const fit = () => {
+      const fw = mailStage.clientWidth / (tier.cols * advanceRatio);
+      const fh = mailStage.clientHeight / tier.rows;
+      mailPre.style.fontSize = (Math.max(Math.min(fw, fh), 5) * 0.99).toFixed(2) + 'px';
+    };
+    measureAdvance();
     fit();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measureAdvance(); fit(); });
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(mailStage);
     else window.addEventListener('resize', fit);
     if (!reduceMotion) {

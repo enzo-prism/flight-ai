@@ -102,8 +102,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
 /* Hero */
 .hero { padding: 88px 0 96px; overflow: clip; }
-.mail-hero { position: relative; background: #050b18; padding: 128px 0 136px; }
-.mail-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
+.mail-hero { position: relative; background: #050b18; padding: 104px 0 112px; }
+.mail-grid { display: grid; gap: 44px; }
 .live {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: 0.86rem; font-weight: 600; color: #dbe4f0;
@@ -118,7 +118,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .micro { font-size: 0.9rem; color: var(--muted); }
 
 /* ASCII mail hero stage */
-.mail-stage { position: relative; height: 540px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.mail-stage { position: relative; width: 100%; aspect-ratio: 1.9 / 1; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .mail-pre {
   flex: none; margin: 0; padding: 0; white-space: pre; line-height: 1;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -133,13 +133,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .mail-hero .btn.solid:hover { background: #e6ecf5; }
 .mail-hero .btn.outline { border-color: rgba(255, 255, 255, 0.35); color: #fff; background: rgba(5, 11, 24, 0.45); }
 .mail-hero .btn.outline:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.6); }
-@media (max-width: 900px) {
-  .mail-grid { grid-template-columns: 1fr; gap: 32px; }
-  .mail-stage { height: 380px; }
-}
 @media (max-width: 560px) {
   .mail-hero { padding: 88px 0 96px; }
-  .mail-stage { height: 300px; }
 }
 
 /* Integrations strip */
