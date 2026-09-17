@@ -145,6 +145,14 @@
     }
   }
 
+  // Customer stories: only one interview plays at a time
+  const storyVids = document.querySelectorAll('.stories video');
+  storyVids.forEach((v) => {
+    v.addEventListener('play', () => {
+      storyVids.forEach((o) => { if (o !== v && !o.paused) o.pause(); });
+    });
+  });
+
   // Pilot form routes into the self-serve app (mailto fallback when JS is off)
   const form = document.getElementById('pilotForm');
   if (form) {
