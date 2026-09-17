@@ -80,30 +80,55 @@
     counters.forEach(runCounter);
   }
 
-  // Hero route dot, driven from the real SVG path so it tracks at any width
-  const path = document.getElementById('routePath');
-  const dot = document.querySelector('.plane-dot');
-  if (path && dot && path.getTotalLength) {
-    const svg = path.ownerSVGElement;
-    const len = path.getTotalLength();
-    const place = (t) => {
-      const pt = path.getPointAtLength(t * len);
-      const r = svg.getBoundingClientRect();
-      const x = (pt.x / 520) * r.width;
-      const y = (pt.y / 170) * r.height;
-      dot.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+  // ASCII planet hero: packed frame tiers under assets/planet (see README).
+  // Poster frame is inlined in the HTML; JS fits it, then hydrates playback.
+  const planetStage = document.getElementById('planetStage');
+  const planetPre = document.getElementById('planetPre');
+  if (planetStage && planetPre) {
+    const TIERS = [
+      { max: 640, name: 'low', cols: 97 },
+      { max: 1200, name: 'medium', cols: 126 },
+      { max: Infinity, name: 'high', cols: 154 },
+    ];
+    const saveData = navigator.connection && navigator.connection.saveData;
+    const stageW = planetStage.clientWidth || window.innerWidth;
+    const tier = saveData ? TIERS[0] : TIERS.find((t) => stageW < t.max);
+    const fit = () => {
+      const minF = planetStage.clientWidth < 560 ? 12 : 9;
+      const fs = Math.max(planetStage.clientWidth / (tier.cols * 0.6), minF);
+      planetPre.style.fontSize = fs.toFixed(2) + 'px';
     };
-    if (reduceMotion) {
-      place(1);
-      window.addEventListener('resize', () => place(1));
-    } else {
-      const dur = 7000;
-      const t0 = performance.now();
-      const fly = (t) => {
-        place(((t - t0) / dur) % 1);
-        requestAnimationFrame(fly);
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(planetStage);
+    else window.addEventListener('resize', fit);
+    if (!reduceMotion) {
+      let frames = null;
+      let idx = 0;
+      let timer = null;
+      let visible = true;
+      const tick = () => {
+        idx = (idx + 1) % frames.length;
+        planetPre.textContent = frames[idx];
       };
-      requestAnimationFrame(fly);
+      const play = () => {
+        if (!timer && frames && visible && !document.hidden) timer = setInterval(tick, 1000 / 15);
+      };
+      const stop = () => {
+        if (timer) { clearInterval(timer); timer = null; }
+      };
+      document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else play(); });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es) => {
+          visible = es[0].isIntersecting;
+          if (visible) play(); else stop();
+        }).observe(planetStage);
+      }
+      fetch(`assets/planet/${tier.name}.json`)
+        .then((r) => { if (!r.ok) throw new Error('planet tier missing'); return r.json(); })
+        .then((d) => {
+          if (d && Array.isArray(d.frames) && d.frames.length > 0) { frames = d.frames; play(); }
+        })
+        .catch(() => { /* poster frame stays */ });
     }
   }
 

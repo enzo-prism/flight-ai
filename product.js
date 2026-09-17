@@ -356,7 +356,7 @@
       nav.appendChild(h('h2', { class: 'side-sec' }, sec.sec));
       const ul = h('ul', { class: 'side-list' });
       sec.items.forEach((it) => {
-        const a = h('a', { class: 'side-link', href: `#/app/${it.tab}`, 'data-tab': it.tab, html: `${icon(it.icon, 16)}<span>${it.label}</span>` });
+        const a = h('a', { class: 'side-link', href: `#/app/${it.tab}`, 'data-tab': it.tab, 'aria-label': it.label, 'data-label': it.label, html: `${icon(it.icon, 16)}<span>${it.label}</span>` });
         if (it.tab === tab) a.setAttribute('aria-current', 'page');
         ul.appendChild(h('li', {}, a));
       });
@@ -370,7 +370,7 @@
     $('#wsPill').textContent = wsId();
     $('#wsId').textContent = wsId();
     $('#towerIcon').innerHTML = icon('tower-control', 16);
-    $('#sideCollapse').innerHTML = icon('chevrons-left', 16);
+    syncRailToggle();
     $('#sideOpen').innerHTML = icon('panel-left', 18);
     $('#avatarBtn').textContent = user.avatar;
     $('#sideAvatar').textContent = user.avatar;
@@ -390,6 +390,53 @@
     $('#sideNav').classList.remove('open');
     $('#sideBackdrop').hidden = true;
   }
+  function syncRailToggle() {
+    if (typeof hideRailTip === 'function') hideRailTip();
+    const mini = $('#sideNav').classList.contains('mini');
+    const btn = $('#sideCollapse');
+    btn.innerHTML = icon(mini ? 'chevrons-right' : 'chevrons-left', 16);
+    const label = mini ? 'Expand sidebar' : 'Collapse sidebar';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('data-label', label);
+    btn.setAttribute('aria-expanded', String(!mini));
+    const wide = window.matchMedia('(min-width: 901px)').matches;
+    $('#sideOpen').setAttribute('aria-label', wide && mini ? 'Expand sidebar' : 'Open navigation');
+  }
+  window.matchMedia('(min-width: 901px)').addEventListener('change', syncRailToggle);
+  const railTip = $('#railTip');
+  let railTipFor = null;
+  function showRailTip(el) {
+    if (!$('#sideNav').classList.contains('mini')) return;
+    const label = el.getAttribute('data-label');
+    if (!label) return;
+    railTip.textContent = label;
+    const r = el.getBoundingClientRect();
+    railTip.style.left = (r.right + 12) + 'px';
+    railTip.style.top = (r.top + r.height / 2) + 'px';
+    railTip.style.transform = 'translateY(-50%)';
+    railTip.hidden = false;
+    requestAnimationFrame(() => railTip.classList.add('show'));
+    railTipFor = el;
+  }
+  function hideRailTip() {
+    railTip.classList.remove('show');
+    railTip.hidden = true;
+    railTipFor = null;
+  }
+  $('#sideNav').addEventListener('mouseover', (e) => {
+    const t = e.target.closest('.side-link, #sideCollapse');
+    if (t) { if (railTipFor !== t) { hideRailTip(); showRailTip(t); } }
+    else hideRailTip();
+  });
+  $('#sideNav').addEventListener('mouseout', (e) => {
+    if (railTipFor && !railTipFor.contains(e.relatedTarget)) hideRailTip();
+  });
+  $('#sideNav').addEventListener('focusin', (e) => {
+    const t = e.target.closest('.side-link, #sideCollapse');
+    if (t) showRailTip(t);
+  });
+  $('#sideNav').addEventListener('focusout', hideRailTip);
+  document.addEventListener('scroll', hideRailTip, true);
   $('#avatarBtn').addEventListener('click', () => {
     const menu = $('#avatarMenu');
     const open = menu.hidden;
@@ -409,13 +456,18 @@
   });
   $('#sideOpen').addEventListener('click', () => {
     $('#sideNav').classList.remove('mini');
-    $('#sideNav').classList.add('open');
-    $('#sideBackdrop').hidden = false;
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      $('#sideNav').classList.add('open');
+      $('#sideBackdrop').hidden = false;
+    }
+    syncRailToggle();
   });
   $('#sideBackdrop').addEventListener('click', closeSide);
   $('#sideCollapse').addEventListener('click', () => {
+    hideRailTip();
     if (window.matchMedia('(max-width: 900px)').matches) closeSide();
     else $('#sideNav').classList.toggle('mini');
+    syncRailToggle();
   });
   function signOut(msg) {
     store.clear();
@@ -586,6 +638,7 @@
     if (e.key === 'Escape') {
       $$('.modal').forEach((m) => { if (!m.hidden) closeModal(`#${m.id}`); });
       closeMenus();
+      if (window.matchMedia('(max-width: 900px)').matches) closeSide();
     }
   });
   $('#ssoBtn').addEventListener('click', () => openModal('#ssoModal'));

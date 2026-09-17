@@ -10,6 +10,7 @@
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#0B1B33">
   <link rel="icon" type="image/png" href="assets/brand/mach1-mark.png">
+  <noscript><style>.planet-pre { font-size: max(12px, 1.7vw) !important; }</style></noscript>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
 </head>
@@ -48,9 +49,37 @@
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
+    <section class="hero planet-hero">
+      <div class="planet-stage" id="planetStage" role="img" aria-label="Animated ASCII art of a ringed planet cycling from a bright rotating globe to a thin crescent and back">
+        <pre class="planet-pre" id="planetPre" aria-hidden="true">                                                -`                                               
+                                  -&#x27;_..----.:=+r)&lt;\!&quot;,_&#x27;?~_&#x27;&#x27;&#x27;`                                  
+                                 `&#x27;&#x27;````!r!!*:,~~~~;&quot;;^!;!*=)|//(^&#x27;`                             
+                               ```:` ``&#x27;:___--:~~&quot;&quot;:&quot;&quot;~&quot;&quot;:&quot;&quot;::,:~;;^~,-                          
+                              `-_&quot;*_&#x27;&quot;~!^~&quot;;;^!;~&quot;;&quot;&quot;;;~~;~;;~~,,^^;;;!;:.                       
+                               &#x27;;;!*;&quot;~&quot;,~^&quot;~:,~^^^^^^~;;!*+)&lt;/r*\)&gt;&lt;/)))r!,_                    
+                              -r&quot;:,._!&#x27; .&#x27;,&quot;,,&#x27;,&quot;- -&#x27;`-:~!+|)~*T{f7v{ji?ll?\({t&quot;                 
+                         _rc/*_`     `..` &#x27;&#x27;&#x27;_,:         _&quot;&quot;:  ^{1V[{onxjTcf|lwNAL               
+                        ~r!*.     `    `  `~-  ;!r/]?\^~:~~;;!:  )VJIuCuc|/r!(t{4@@i             
+                        &quot;:,~rlT]Li*            `_&#x27;.)~_Lt7j?|)|)-  &lt;TTzYzT7?|TuF3m6@@@~           
+                     :r?YnykZZ%dPh&lt;_-     `          -jJCyZsT?ii&lt;/ltjv]7Tvz?L7voXHSX0@t          
+                   -|xfsu2FJyZeCoJJyot(,_1wJT(*&#x27;.-`.~7tfx[uIfxv?tviv77vTt]]]c\r^Lx[nno5T         
+                .|Tyo{[yeufjss{Yxxxx{x}55Chw5S%h4Y{tT7tvsu[uJJJv&#x27;!Ti?|l&gt;T[Y[s7j&gt;*;(?Y{i/)`       
+               &gt;54yJszu4yf77Ti|?]7uIYTvCZCyY[2nnJu{|  \]z7Ttxsnn; -^c&gt;=vTc7s[{ix1v=;;\||&lt;\-      
+             &quot;22nJ[jt[CCn[IzctI{v{sjInx7{u{tTs[{Yuxi&lt;  ;=*LTztxYVx&quot;  &#x27;_-,;(+r(7s{?l&gt;(r=~&#x27;&#x27;:-     
+             Z1uZyFyyuu[xsIsfxI[zv77l\rc7tsfjYIIfTi|?)` &#x27;/|]TcjYYyyt?j?,-     `=lr!~^*=*~,_~`    
+            *1tYunZon[xtj{Yti&gt;[FuFu[7&gt;|fjT7{{s{xtfxv?i\  ,\/c7jYs[[ujcYC7       -:&quot;:,,&quot;~&quot;._;:    
+           :?)(&lt;|iT]]TiiT7cvcxJZVeCJn1}xT]YJ[YYYvcTvT?/;   =\?fxYfxxsJy?           :_&#x27;,,-  .:-   
+           ,.._:;==+&lt;/&lt;?vl&lt;Tt77{Yx{IusjTctt7iTftv?|)\)&gt;&lt;!   =(7sztss=.`            `,,~_    &#x27;^   
+           `----_,&#x27;&#x27;:&quot;_&#x27;^&quot;~!r/)&lt;r~)/(\rr+\=&gt;??||&gt;|*:,__&#x27;~r&quot; _rr+=,`                 -;^`     _:  
+            ````---`-.``---..,&quot;&#x27;:&quot;:&#x27;_.__,&quot;!rr(*:,&quot;&quot;_.`-__&quot;r*.                        .&quot;-      .  
+               `-```----``-..--`--.-``-```---__..__-```-.,~;r:&quot;!/|t&quot;                  __         
+                         ---`               ``---__-`  -..&#x27;~!\r+|Tr                              
+                                    ```       ``--......`-,=)r~*|^                               
+                                              `````_^;~,_&#x27;&quot;^~&quot;!!&#x27;                                
+ .                                              ```-&#x27;&quot;&quot;~;~:,_.-                                ` </pre>
+        <div class="planet-scrim" aria-hidden="true"></div>
+      </div>
+      <div class="wrap hero-copy">
           <p class="live"><span class="dot" aria-hidden="true"></span> SOC 2 Type II · Live in days</p>
           <h1>Support and sales, on autopilot.</h1>
           <p class="lede">Mach 1 agents plug into your helpdesk, CRM, and data stack. They resolve tickets and close pipeline — with your crew in control.</p>
@@ -59,51 +88,6 @@
             <a class="btn outline lg" href="mailto:demo@mach1ai.com?subject=Mach%201%20demo">Book a demo</a>
           </div>
           <p class="micro">Live in days. No rip-and-replace. Zendesk · Salesforce · HubSpot · Intercom.</p>
-        </div>
-        <div class="hero-visual reveal">
-          <div class="deck">
-            <div class="deck-head">
-              <lord-icon src="https://cdn.lordicon.com/vlgbdagb.json" trigger="loop" delay="0"
-                colors="primary:#0B1B33,secondary:#1F6FEB" style="width:30px;height:30px" aria-hidden="true"></lord-icon>
-              <div>
-                <p class="deck-title">Flight Deck</p>
-                <p class="deck-sub">Connected · Zendesk · Salesforce</p>
-              </div>
-              <span class="pill">Autopilot on</span>
-            </div>
-            <div class="route" aria-hidden="true">
-              <svg viewBox="0 0 520 170" preserveAspectRatio="none">
-                <path id="routePath" d="M 16 140 C 140 140, 170 40, 270 40 S 430 110, 504 52"
-                  fill="none" stroke="#1F6FEB" stroke-width="2" stroke-dasharray="7 7" stroke-linecap="round" opacity="0.65"/>
-                <circle cx="16" cy="140" r="5" fill="#0B1B33"/>
-                <circle cx="504" cy="52" r="5" fill="#1F6FEB"/>
-              </svg>
-              <span class="plane-dot"></span>
-            </div>
-            <ul class="tickets">
-              <li>
-                <lord-icon src="https://cdn.lordicon.com/ypagsvdy.json" trigger="loop" delay="600"
-                  colors="primary:#0B7A4B,secondary:#1F6FEB" style="width:26px;height:26px" aria-hidden="true"></lord-icon>
-                <div><p>#4821 · Refund issued &amp; customer notified</p><span>Resolved in 38s · CSAT 5/5</span></div>
-              </li>
-              <li>
-                <lord-icon src="https://cdn.lordicon.com/rcuovkuy.json" trigger="loop" delay="1200"
-                  colors="primary:#0B1B33,secondary:#1F6FEB" style="width:26px;height:26px" aria-hidden="true"></lord-icon>
-                <div><p>traceVision · Qualified &amp; booked for tomorrow</p><span>Sales · Synced to Salesforce</span></div>
-              </li>
-              <li>
-                <lord-icon src="https://cdn.lordicon.com/warimioc.json" trigger="loop" delay="1800"
-                  colors="primary:#0B1B33,secondary:#1F6FEB" style="width:26px;height:26px" aria-hidden="true"></lord-icon>
-                <div><p>#4822 · Drafting reply for crew review</p><span>Copilot mode · Awaiting approval</span></div>
-              </li>
-            </ul>
-            <div class="deck-stats">
-              <span><strong>68%</strong> auto-resolved</span>
-              <span><strong>41s</strong> median first response</span>
-              <span><strong>3.2×</strong> more meetings</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
