@@ -45,7 +45,7 @@ vercel --prod
 | `assets/mail/` | Packed ASCII mail tiers (low/medium/high.json, 56 frames each) powering the hero — envelope morphing into a paper plane; frames trimmed to content bbox from semicolons-dev/asciify `animations/mail` (no upstream license file; used for this demo per owner direction) |
 | `vercel.json`| Static hosting config                                |
 
-Demo flow: landing “Get started” → `app.html` fake Google sign-in →
+Demo flow: landing “Try Mach 1” → `app.html` fake Google sign-in →
 onboarding (connect context, choose agents) → workspace (overview,
 connections, agents, billing with Growth/Enterprise upsell). All state is
 local; OAuth, usage, and checkout are simulated.

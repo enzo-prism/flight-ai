@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Sales — Mach 1</title>
+  <meta name="description" content="Talk to the Mach 1 sales team about support and sales automation. Leave your work email and we will reach out within one business day.">
+  <meta name="theme-color" content="#0B1B33">
+  <link rel="icon" type="image/png" href="assets/brand/mach1-mark.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="index.html" aria-label="Mach 1 home">
+        <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="28">
+      </a>
+      <div class="nav-cta">
+        <a class="btn solid has-plane" href="app.html"><svg class="plane" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Try Mach 1</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="sales">
+      <div class="wrap narrow center">
+        <p class="step-no">Contact sales</p>
+        <h1>Talk to a human about Mach&nbsp;1.</h1>
+        <p class="lede-sm">Leave your work email and the sales crew will reach out within one business day — or just try the product.</p>
+        <div class="sales-card">
+          <form id="salesForm" action="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry" method="post" enctype="text/plain">
+            <label for="salesEmail">Work email</label>
+            <div class="sales-row">
+              <input id="salesEmail" name="email" type="email" required placeholder="you@company.com" autocomplete="email">
+              <button class="btn solid lg" type="submit">Contact Sales</button>
+            </div>
+            <p class="micro">Prefer email? <a class="textlink" href="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry">sales@mach1ai.com</a></p>
+          </form>
+          <div class="sales-success" id="salesSuccess" hidden>
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+              <circle cx="22" cy="22" r="20" stroke="#0B7A4B" stroke-width="3"/>
+              <path d="M14 22.5 19.5 28 30 16.5" stroke="#0B7A4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h2>Request received.</h2>
+            <p>Thanks — sales will reach out to <strong id="salesEcho"></strong> within one business day.</p>
+            <p><a class="btn outline" id="salesMailto" href="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry">Open email app instead</a></p>
+          </div>
+        </div>
+        <p class="micro"><a class="textlink" href="index.html">← Back to home</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sales-foot">
+    <div class="wrap">
+      <p>© 2026 Mach 1 AI, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const form = document.getElementById('salesForm');
+      const success = document.getElementById('salesSuccess');
+      if (!form) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const input = document.getElementById('salesEmail');
+        if (!input.checkValidity()) { input.reportValidity(); return; }
+        const email = input.value.trim();
+        document.getElementById('salesEcho').textContent = email;
+        document.getElementById('salesMailto').href =
+          'mailto:sales@mach1ai.com?subject=' + encodeURIComponent('Mach 1 sales inquiry') +
+          '&body=' + encodeURIComponent('Hi Mach 1 sales,\n\nPlease contact me at ' + email + '.\n');
+        form.hidden = true;
+        success.hidden = false;
+        success.querySelector('h2').setAttribute('tabindex', '-1');
+        success.querySelector('h2').focus({ preventScroll: true });
+      });
+    })();
+  </script>
+</body>
+</html>
