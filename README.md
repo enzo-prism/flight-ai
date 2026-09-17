@@ -42,7 +42,7 @@ vercel --prod
 | `assets/icons.js` | Inline sidebar icons (Lucide, ISC — see lucide.dev) |
 | `assets/brand/` | Mach 1 logo + mark PNGs (light/dark, from mach1ai.com) |
 | `assets/connectors/` | Brand SVGs: svgl routes + Simple Icons (Zendesk/Intercom/HubSpot/Snowflake, absent from svgl) + flat Google G. Demo-app fallbacks + homepage strip logos |
-| `assets/planet/` | Packed ASCII planet tiers (low/medium/high.json, 300 frames each) powering the hero; frames trimmed to content bbox from semicolons-dev/asciify `animations/planet` (no upstream license file; used for this demo per owner direction) |
+| `assets/mail/` | Packed ASCII mail tiers (low/medium/high.json, 56 frames each) powering the hero — envelope morphing into a paper plane; frames trimmed to content bbox from semicolons-dev/asciify `animations/mail` (no upstream license file; used for this demo per owner direction) |
 | `vercel.json`| Static hosting config                                |
 
 Demo flow: landing “Get started” → `app.html` fake Google sign-in →

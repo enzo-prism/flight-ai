@@ -102,8 +102,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 
 /* Hero */
 .hero { padding: 88px 0 96px; overflow: clip; }
-.planet-hero { position: relative; background: #050b18; padding: 128px 0 136px; }
-.planet-hero .hero-copy { position: relative; z-index: 2; }
+.mail-hero { position: relative; background: #050b18; padding: 128px 0 136px; }
+.mail-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
 .live {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: 0.86rem; font-weight: 600; color: #dbe4f0;
@@ -117,38 +117,29 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .center-row { justify-content: center; }
 .micro { font-size: 0.9rem; color: var(--muted); }
 
-/* ASCII planet hero stage */
-.planet-stage { position: absolute; inset: 0; overflow: hidden; display: flex; align-items: center; justify-content: flex-start; }
-.planet-pre {
-  flex: none; margin: 0 0 0 18%; padding: 0; white-space: pre; line-height: 1;
+/* ASCII mail hero stage */
+.mail-stage { position: relative; height: 540px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.mail-pre {
+  flex: none; margin: 0; padding: 0; white-space: pre; line-height: 1;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   color: #8fb8ff; font-size: 10px;
-  -webkit-mask-image: radial-gradient(115% 95% at 50% 45%, #000 52%, transparent 98%);
-  mask-image: radial-gradient(115% 95% at 50% 45%, #000 52%, transparent 98%);
+  -webkit-mask-image: radial-gradient(100% 100% at 50% 50%, #000 62%, transparent 99%);
+  mask-image: radial-gradient(100% 100% at 50% 50%, #000 62%, transparent 99%);
 }
-.planet-scrim {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(90deg, rgba(5, 11, 24, 0.94) 0%, rgba(5, 11, 24, 0.72) 34%, rgba(5, 11, 24, 0.18) 62%, rgba(5, 11, 24, 0.32) 100%),
-    linear-gradient(transparent 62%, rgba(5, 11, 24, 0.88) 100%);
-}
-.planet-hero h1 { color: #fff; max-width: 11em; }
-.planet-hero .lede { color: #c3d0e2; }
-.planet-hero .micro { color: #93a1b8; }
-.planet-hero .btn.solid { background: #fff; color: #0b1b33; }
-.planet-hero .btn.solid:hover { background: #e6ecf5; }
-.planet-hero .btn.outline { border-color: rgba(255, 255, 255, 0.35); color: #fff; background: rgba(5, 11, 24, 0.45); }
-.planet-hero .btn.outline:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.6); }
+.mail-hero h1 { color: #fff; max-width: 11em; }
+.mail-hero .lede { color: #c3d0e2; }
+.mail-hero .micro { color: #93a1b8; }
+.mail-hero .btn.solid { background: #fff; color: #0b1b33; }
+.mail-hero .btn.solid:hover { background: #e6ecf5; }
+.mail-hero .btn.outline { border-color: rgba(255, 255, 255, 0.35); color: #fff; background: rgba(5, 11, 24, 0.45); }
+.mail-hero .btn.outline:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.6); }
 @media (max-width: 900px) {
-  .planet-stage { align-items: flex-end; justify-content: center; }
-  .planet-pre { margin-left: 0; transform: translateY(18%); }
-  .planet-scrim {
-    background:
-      linear-gradient(180deg, rgba(5, 11, 24, 0.94) 0%, rgba(5, 11, 24, 0.8) 40%, rgba(5, 11, 24, 0.55) 65%, rgba(5, 11, 24, 0.9) 100%);
-  }
+  .mail-grid { grid-template-columns: 1fr; gap: 32px; }
+  .mail-stage { height: 380px; }
 }
 @media (max-width: 560px) {
-  .planet-hero { padding: 88px 0 96px; }
+  .mail-hero { padding: 88px 0 96px; }
+  .mail-stage { height: 300px; }
 }
 
 /* Integrations strip */

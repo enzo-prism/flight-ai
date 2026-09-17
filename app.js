@@ -80,26 +80,25 @@
     counters.forEach(runCounter);
   }
 
-  // ASCII planet hero: packed frame tiers under assets/planet (see README).
+  // ASCII mail hero: packed frame tiers under assets/mail (see README).
   // Poster frame is inlined in the HTML; JS fits it, then hydrates playback.
-  const planetStage = document.getElementById('planetStage');
-  const planetPre = document.getElementById('planetPre');
-  if (planetStage && planetPre) {
+  const mailStage = document.getElementById('mailStage');
+  const mailPre = document.getElementById('mailPre');
+  if (mailStage && mailPre) {
     const TIERS = [
-      { max: 640, name: 'low', cols: 97 },
-      { max: 1200, name: 'medium', cols: 126 },
-      { max: Infinity, name: 'high', cols: 154 },
+      { max: 340, name: 'low', cols: 91, rows: 29 },
+      { max: 500, name: 'medium', cols: 118, rows: 38 },
+      { max: Infinity, name: 'high', cols: 146, rows: 46 },
     ];
     const saveData = navigator.connection && navigator.connection.saveData;
-    const stageW = planetStage.clientWidth || window.innerWidth;
-    const tier = saveData ? TIERS[0] : TIERS.find((t) => stageW < t.max);
+    const stageH = mailStage.clientHeight || window.innerHeight;
+    const tier = saveData ? TIERS[0] : TIERS.find((t) => stageH < t.max);
     const fit = () => {
-      const minF = planetStage.clientWidth < 560 ? 12 : 9;
-      const fs = Math.max(planetStage.clientWidth / (tier.cols * 0.6), minF);
-      planetPre.style.fontSize = fs.toFixed(2) + 'px';
+      const fs = Math.max(mailStage.clientHeight / tier.rows, 8);
+      mailPre.style.fontSize = fs.toFixed(2) + 'px';
     };
     fit();
-    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(planetStage);
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(mailStage);
     else window.addEventListener('resize', fit);
     if (!reduceMotion) {
       let frames = null;
@@ -108,10 +107,10 @@
       let visible = true;
       const tick = () => {
         idx = (idx + 1) % frames.length;
-        planetPre.textContent = frames[idx];
+        mailPre.textContent = frames[idx];
       };
       const play = () => {
-        if (!timer && frames && visible && !document.hidden) timer = setInterval(tick, 1000 / 15);
+        if (!timer && frames && visible && !document.hidden) timer = setInterval(tick, 1000 / 12);
       };
       const stop = () => {
         if (timer) { clearInterval(timer); timer = null; }
@@ -121,10 +120,10 @@
         new IntersectionObserver((es) => {
           visible = es[0].isIntersecting;
           if (visible) play(); else stop();
-        }).observe(planetStage);
+        }).observe(mailStage);
       }
-      fetch(`assets/planet/${tier.name}.json`)
-        .then((r) => { if (!r.ok) throw new Error('planet tier missing'); return r.json(); })
+      fetch(`assets/mail/${tier.name}.json`)
+        .then((r) => { if (!r.ok) throw new Error('mail tier missing'); return r.json(); })
         .then((d) => {
           if (d && Array.isArray(d.frames) && d.frames.length > 0) { frames = d.frames; play(); }
         })
