@@ -1,4 +1,4 @@
-/* Flight AI product app — shadcn-style zinc theme */
+/* Mach 1 product app — shadcn-style zinc theme */
 :root {
   --background: #fafafa;
   --card: #ffffff;
@@ -68,6 +68,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .textlink:hover { text-decoration: underline; text-underline-offset: 3px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--foreground); font-weight: 700; font-size: 1rem; }
 .logo-tile { width: 32px; height: 32px; border-radius: 10px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.brand img.brand-logo { height: 30px; width: auto; display: block; }
+.logo-tile img { width: 18px; height: 18px; object-fit: contain; display: block; }
 
 /* Buttons */
 .btn {

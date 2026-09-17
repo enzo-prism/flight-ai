@@ -286,3 +286,7 @@ footer nav a:hover { color: #fff; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .dot { box-shadow: none; }
 }
+
+/* Brand logo */
+.brand-logo { display: block; width: auto; height: 28px; }
+.foot-brand img { height: 26px; }

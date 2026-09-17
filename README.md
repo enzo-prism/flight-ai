@@ -1,9 +1,12 @@
-# Flight AI — preview site
+# Mach 1 — demo site
 
-Single-page marketing site for **Flight AI**, a fictional company whose AI agents
+Single-page marketing site for **Mach 1**, whose AI agents
 are specialized for customer support and sales. Clean, spacious,
 Cursor/Apple/OpenAI-inspired design with subtle aviation theming and animated
 Lordicon icons throughout.
+
+Brand assets (logo + mark, light and dark) live under `assets/brand/` and are
+sourced from mach1ai.com.
 
 ## Stack
 
@@ -37,6 +40,7 @@ vercel --prod
 | `product.css`| shadcn-style zinc theme + responsive app shell       |
 | `product.js` | Hash router + 24 views, demo state (localStorage)    |
 | `assets/icons.js` | Inline sidebar icons (Lucide, ISC — see lucide.dev) |
+| `assets/brand/` | Mach 1 logo + mark PNGs (light/dark, from mach1ai.com) |
 | `assets/connectors/` | Brand SVGs: svgl routes + Simple Icons (Zendesk/Intercom/HubSpot/Snowflake, absent from svgl) + flat Google G. Demo-app fallbacks + homepage strip logos |
 | `vercel.json`| Static hosting config                                |
 

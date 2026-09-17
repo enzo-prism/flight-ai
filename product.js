@@ -1,4 +1,4 @@
-/* Flight AI product demo — admin shell, router, views. No backend. */
+/* Mach 1 product demo — admin shell, router, views. No backend. */
 (() => {
   'use strict';
   if (typeof window.icon !== 'function') {
@@ -161,7 +161,7 @@
   /* ---------- Demo data ---------- */
   const ACTIVITY = [
     { text: '#4821 · Refund issued & customer notified', meta: 'Front · Support' },
-    { text: 'Acme Corp · Qualified & booked for tomorrow', meta: 'Salesforce · Sales' },
+    { text: 'Loopwork · Qualified & booked for tomorrow', meta: 'Salesforce · Sales' },
     { text: '#4822 · Draft ready for crew review', meta: 'WhatsApp · Copilot' },
     { text: 'Apollo.io · 14 prospects enriched & staged', meta: 'Apollo.io · Sales' },
     { text: 'Help center · 3 gaps flagged from real chats', meta: 'Notion · Support' },
@@ -171,7 +171,7 @@
   ];
   const FLIGHTS = [
     { id: 'FL-1042', agent: 'Support', summary: '#4821 refund $48 · notified', result: 'Auto-resolved', time: '2m' },
-    { id: 'FL-1041', agent: 'Sales', summary: 'Acme Corp demo booked Tue 10:00', result: 'Booked', time: '9m' },
+    { id: 'FL-1041', agent: 'Sales', summary: 'Loopwork demo booked Tue 10:00', result: 'Booked', time: '9m' },
     { id: 'FL-1040', agent: 'Support', summary: '#4822 draft awaiting approval', result: 'Needs review', time: '18m' },
     { id: 'FL-1039', agent: 'Sales', summary: '14 Apollo.io prospects enriched', result: 'Synced', time: '32m' },
     { id: 'FL-1038', agent: 'Support', summary: '#4817 escalated · sentiment angry', result: 'Escalated', time: '3h' },
@@ -202,7 +202,7 @@
   ];
 
   /* ---------- State ---------- */
-  const K = 'flightai.v1.';
+  const K = 'mach1.v1.';
   const store = {
     get(k, fb) { try { const v = localStorage.getItem(K + k); return v ? JSON.parse(v) : fb; } catch { return fb; } },
     set(k, v) { try { localStorage.setItem(K + k, JSON.stringify(v)); } catch {} },
@@ -252,22 +252,22 @@
     seed('workflows', { triage: true, followup: true, csat: false });
     seed('tasks', [
       { id: 'TK-1', text: '#4822 · Approve $48 refund draft', done: false },
-      { id: 'TK-2', text: 'Acme Corp · Confirm Tuesday demo invite', done: false },
+      { id: 'TK-2', text: 'Loopwork · Confirm Tuesday demo invite', done: false },
       { id: 'TK-3', text: '#4817 · Review escalation summary', done: true },
     ]);
     seed('memories', [
-      { k: 'vip.tier', v: 'Acme Corp renews in March — white-glove routing' },
+      { k: 'vip.tier', v: 'Loopwork renews in March — white-glove routing' },
       { k: 'policy.refunds', v: 'Auto-approve refunds under $100 in Copilot' },
     ]);
     seed('secrets', [{ name: 'STRIPE_KEY', updated: 'Sep 12' }]);
     seed('keys', [{ id: 'fk_9d2…a41c', created: 'Sep 2', last: '2h ago' }]);
     seed('team', [
-      { n: 'Alex Rivera', e: 'pilot@flight.ai', r: 'Owner' },
-      { n: 'Maya Chen', e: 'maya@acme.co', r: 'Admin' },
+      { n: 'Alex Rivera', e: 'pilot@tracevision.com', r: 'Owner' },
+      { n: 'Maya Chen', e: 'maya@tracevision.com', r: 'Admin' },
     ]);
     seed('channels', { chat: true, email: true, slackc: true, wac: false, voice: false });
     seed('mcp', { linear: true, github: false, postgres: false });
-    seed('instructions', { prompt: 'You are the Flight AI crew for this workspace. Answer in our voice: short, warm, precise. Never invent order numbers. Escalate angry customers with full context.', tone: 'Warm & concise' });
+    seed('instructions', { prompt: 'You are the Mach 1 crew for this workspace. Answer in our voice: short, warm, precise. Never invent order numbers. Escalate angry customers with full context.', tone: 'Warm & concise' });
     seed('sources', [
       { n: 'Help Center', t: '12,480 articles synced', on: true },
       { n: 'Notion · Support wiki', t: '312 pages synced', on: true },
@@ -311,13 +311,13 @@
     const mainSel = route.startsWith('#/app') ? '#mainApp' : SKIP_BY_ROUTE[route];
     document.querySelector('.skip').setAttribute('href', mainSel);
     document.body.classList.toggle('auth', !route.startsWith('#/app'));
-    if (route === '#/signin') { $('#main').hidden = false; document.title = 'Flight AI — Sign in'; }
-    else if (route === '#/onboarding/connect') { $('#mainConnect').hidden = false; document.title = 'Flight AI — Onboarding'; renderObGrid(); }
-    else if (route === '#/onboarding/agents') { $('#mainAgents').hidden = false; document.title = 'Flight AI — Onboarding'; syncObAgents(); }
+    if (route === '#/signin') { $('#main').hidden = false; document.title = 'Mach 1 — Sign in'; }
+    else if (route === '#/onboarding/connect') { $('#mainConnect').hidden = false; document.title = 'Mach 1 — Onboarding'; renderObGrid(); }
+    else if (route === '#/onboarding/agents') { $('#mainAgents').hidden = false; document.title = 'Mach 1 — Onboarding'; syncObAgents(); }
     else if (route.startsWith('#/app')) {
       $('#viewApp').hidden = false;
       const tab = route.slice(6);
-      document.title = `Flight AI — ${TITLES[tab] || 'Workspace'}`;
+      document.title = `Mach 1 — ${TITLES[tab] || 'Workspace'}`;
       renderApp(tab);
     }
     closeSide();
@@ -342,8 +342,8 @@
 
   /* ---------- Shell ---------- */
   function wsId() {
-    const email = (state.user || {}).email || 'acme.co';
-    return ((email.split('@')[1] || 'acme.co').split('.')[0] || 'acme').toLowerCase();
+    const email = (state.user || {}).email || 'tracevision.com';
+    return ((email.split('@')[1] || 'tracevision.com').split('.')[0] || 'tracevision').toLowerCase();
   }
   function wsName() {
     const id = wsId();
@@ -451,7 +451,7 @@
     btn.disabled = true;
     $('#googleLabel').innerHTML = '<span class="spin" aria-hidden="true"></span> Clearing you for takeoff…';
     setTimeout(() => {
-      const email = signupEmail || 'pilot@flight.ai';
+      const email = signupEmail || 'pilot@tracevision.com';
       const name = signupEmail ? prettyName(signupEmail) : 'Alex Rivera';
       store.set('user', { name, email, avatar: initials(name), provider: 'google' });
       if (!state.ob) store.set('onboarding', { step: 1, connectors: [], support: true, sales: false, mode: 'copilot', complete: false });
@@ -1021,7 +1021,7 @@
       const add = h('button', { class: 'btn outline', type: 'button', style: 'margin-top:12px' }, '+ Add source');
       add.addEventListener('click', () => openForm({
         title: 'Add knowledge source', ok: 'Add source',
-        fields: [{ key: 'url', label: 'URL or path', ph: 'https://help.acme.co', help: 'Docs, wikis, ticket archives, sheets.' }],
+        fields: [{ key: 'url', label: 'URL or path', ph: 'https://help.tracevision.com', help: 'Docs, wikis, ticket archives, sheets.' }],
         onSubmit: (v) => {
           if (!v.url) return 'Enter a URL or path.';
           const all = store.get('sources', []);
@@ -1056,13 +1056,13 @@
 
     improvements(body) {
       body.innerHTML = '';
-      body.appendChild(pageHead('Improvements', 'Gaps Flight found in your docs and macros. Approve to fix.'));
+      body.appendChild(pageHead('Improvements', 'Gaps Mach 1 found in your docs and macros. Approve to fix.'));
       const stack = h('div', { class: 'stack' });
       function paint() {
         stack.innerHTML = '';
         const all = store.get('improvements', []);
         const open = all.filter((x) => x.state === 'open');
-        if (open.length === 0) stack.appendChild(h('p', { class: 'micro' }, 'All caught up. Flight will flag new gaps here.'));
+        if (open.length === 0) stack.appendChild(h('p', { class: 'micro' }, 'All caught up. Mach 1 will flag new gaps here.'));
         open.forEach((it) => {
           const row = h('div', { class: 'rowline' },
             h('div', { class: 'grow' }, h('strong', {}, it.id), h('small', {}, it.text)));
@@ -1195,7 +1195,7 @@
         title: 'Add memory', ok: 'Remember',
         fields: [
           { key: 'k', label: 'Key', ph: 'vip.tier' },
-          { key: 'v', label: 'Value', ph: 'Acme Corp renews in March' },
+          { key: 'v', label: 'Value', ph: 'Loopwork renews in March' },
         ],
         onSubmit: (v) => {
           if (!v.k || !v.v) return 'Key and value are both required.';
@@ -1213,7 +1213,7 @@
 
     'wf-docs'(body) {
       body.innerHTML = '';
-      body.appendChild(pageHead('Documentation', 'Guides for flying Flight AI well.'));
+      body.appendChild(pageHead('Documentation', 'Guides for flying Mach 1 well.'));
       const grid = h('div', { class: 'agent-cards' });
       DOCS.forEach((d) => {
         grid.appendChild(h('div', { class: 'agent-card', style: 'cursor:default' },
@@ -1249,7 +1249,7 @@
       const inv = h('button', { class: 'btn outline', type: 'button', style: 'margin-top:12px' }, '+ Invite teammate');
       inv.addEventListener('click', () => openForm({
         title: 'Invite teammate', ok: 'Send invite',
-        fields: [{ key: 'email', label: 'Work email', ph: 'sam@acme.co' }],
+        fields: [{ key: 'email', label: 'Work email', ph: 'sam@tracevision.com' }],
         onSubmit: (v) => {
           if (!v.email || !v.email.includes('@')) return 'Enter a valid email.';
           const all = store.get('team', []);
@@ -1266,7 +1266,7 @@
 
     'agent-settings'(body) {
       body.innerHTML = '';
-      body.appendChild(pageHead('Agent Settings', 'Your crew stays in control. Set guardrails, then let Flight fly.'));
+      body.appendChild(pageHead('Agent Settings', 'Your crew stays in control. Set guardrails, then let Mach 1 fly.'));
       const a = state.agents || { support: true, sales: false, mode: 'copilot', threshold: 100 };
       function pill(on) {
         return h('span', { class: !on ? 'mode-pill' : a.mode === 'autopilot' ? 'mode-pill on' : 'mode-pill co' },
@@ -1364,7 +1364,7 @@
 
     connections(body) {
       body.innerHTML = '';
-      body.appendChild(pageHead('Connections', 'One click per tool. Flight syncs history and keeps everything in formation.'));
+      body.appendChild(pageHead('Connections', 'One click per tool. Mach 1 syncs history and keeps everything in formation.'));
       const search = h('input', { type: 'search', placeholder: 'Search integrations…', 'aria-label': 'Search integrations', autocomplete: 'off' });
       const count = h('p', { class: 'micro', role: 'status', 'aria-live': 'polite' });
       search.setAttribute('aria-describedby', 'connCountLive');
@@ -1378,7 +1378,7 @@
       body.appendChild(filters);
       const empty = h('div', { class: 'empty', role: 'status', hidden: true });
       empty.insertAdjacentHTML('afterbegin', '<lord-icon src="https://cdn.lordicon.com/vlgbdagb.json" trigger="hover" colors="primary:#18181B,secondary:#71717A" style="width:52px;height:52px" aria-hidden="true"></lord-icon>');
-      empty.append(h('p', {}, h('strong', {}, 'No connections yet. '), 'Add your first to ground Flight in real context.'),
+      empty.append(h('p', {}, h('strong', {}, 'No connections yet. '), 'Add your first to ground Mach 1 in real context.'),
         h('p', { class: 'micro' }, 'Takes ~30 seconds per tool.'));
       body.appendChild(empty);
       const noMatch = h('p', { class: 'micro', role: 'status', hidden: true });
@@ -1545,7 +1545,7 @@
         title: 'Add MCP server', ok: 'Add server',
         fields: [
           { key: 'name', label: 'Name', ph: 'Figma MCP' },
-          { key: 'url', label: 'Endpoint', ph: 'https://mcp.acme.co/figma' },
+          { key: 'url', label: 'Endpoint', ph: 'https://mcp.tracevision.com/figma' },
         ],
         onSubmit: (v) => {
           if (!v.name || !v.url) return 'Name and endpoint are required.';
@@ -1719,7 +1719,7 @@
         h('ul', {}, ...['1,000 resolutions + 50 meetings', 'Unlimited connections', 'Autopilot + audit log', 'Slack support'].map((x) => h('li', {}, x))), growBtn));
       plans.append(h('div', { class: 'plan' }, h('h2', {}, 'Enterprise'), h('p', { class: 'price' }, 'Custom'),
         h('ul', {}, ...['SSO/SAML + EU residency', 'Custom retention + SLA 99.99%', 'Dedicated crew', 'Security review support'].map((x) => h('li', {}, x))),
-        h('a', { class: 'btn outline wide small', href: 'mailto:sales@flight.ai?subject=Flight%20AI%20Enterprise' }, 'Talk to sales')));
+        h('a', { class: 'btn outline wide small', href: 'mailto:sales@mach1ai.com?subject=Mach%201%20Enterprise' }, 'Talk to sales')));
       body.appendChild(plans);
       body.appendChild(h('p', { class: 'micro center' }, 'Per-resolution for Support, per-qualified-meeting for Sales. No per-seat fees.'));
     },
@@ -1738,9 +1738,9 @@
     const otile = logoImg(c, true);
     otile.id = 'oauthLogo';
     $('#oauthLogo').replaceWith(otile);
-    $('#oauthTitle').textContent = `Connect ${c.name} to Flight AI`;
+    $('#oauthTitle').textContent = `Connect ${c.name} to Mach 1`;
     $('#oauthCard').setAttribute('aria-labelledby', 'oauthTitle');
-    $('#oauthDesc').textContent = `Flight AI wants to ${c.blurb.charAt(0).toLowerCase() + c.blurb.slice(1)} as ${wsName()}. It never deletes without approval.`;
+    $('#oauthDesc').textContent = `Mach 1 wants to ${c.blurb.charAt(0).toLowerCase() + c.blurb.slice(1)} as ${wsName()}. It never deletes without approval.`;
     $('#oauthPerms').innerHTML = '';
     c.perms.forEach((p) => $('#oauthPerms').appendChild(h('li', {}, p)));
     const allow = $('#oauthAllow');
