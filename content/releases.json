@@ -1,0 +1,161 @@
+[
+  {
+    "slug": "september-2026-platform-polish",
+    "title": "A more polished everyday experience",
+    "period": "September 5–11, 2026",
+    "startDate": "2026-09-05",
+    "endDate": "2026-09-11",
+    "category": "Experience",
+    "summary": "Accumulated application and platform improvements reached production, with a focus on interface polish and stability.",
+    "benefit": "Routine improvements help make day-to-day work in Mach 1 smoother and more reliable.",
+    "highlights": [
+      { "title": "Application updates in production", "description": "The latest web application updates include interface improvements and stability refinements.", "benefit": "A more polished experience for the tasks your team already performs." }
+    ],
+    "fixes": [],
+    "foundation": ["A core platform production release brought accumulated backend enhancements and reliability refinements into the live product."],
+    "sourcePages": [8, 9]
+  },
+  {
+    "slug": "august-2026-long-term-archiving",
+    "title": "Keep history without slowing down daily work",
+    "period": "August 29–September 4, 2026",
+    "startDate": "2026-08-29",
+    "endDate": "2026-09-04",
+    "category": "Capabilities",
+    "summary": "Long-term cloud archiving helps Mach 1 store historical account data efficiently as your account grows.",
+    "benefit": "Your team's growing history puts less pressure on the everyday operations you rely on.",
+    "highlights": [
+      { "title": "Long-term data archiving", "description": "Secure cloud archiving stores historical account information efficiently, helping maintain responsive daily platform operations.", "benefit": "Keep historical information while supporting a responsive working experience." },
+      { "title": "Application refinements", "description": "Scheduled application updates brought performance polish and interface refinements.", "benefit": "Small improvements make working across the application smoother." }
+    ],
+    "fixes": [],
+    "foundation": ["Routine database optimizations and platform maintenance strengthen backend reliability.", "Foundational application work prepares the platform for future customer features."],
+    "sourcePages": [7, 8]
+  },
+  {
+    "slug": "august-2026-ai-cost-visibility",
+    "title": "Understand your estimated AI usage costs",
+    "period": "August 22–28, 2026",
+    "startDate": "2026-08-22",
+    "endDate": "2026-08-28",
+    "category": "Capabilities",
+    "summary": "Administrators can see estimated AI usage costs by model, review an aggregate total, and include cost insights in CSV exports.",
+    "benefit": "Give budget conversations a clearer starting point with model-level estimates your team can review and export.",
+    "highlights": [
+      { "title": "Estimated costs by model", "description": "The admin usage dashboard now breaks estimated AI usage costs down by model and shows an aggregate total. These figures are estimates, not invoices.", "benefit": "Understand which models contribute to estimated usage costs without piecing together separate reports." },
+      { "title": "Exportable cost insights", "description": "Include estimated AI cost information in downloadable CSV reports.", "benefit": "Bring the same usage estimates into your existing budget tracking and review process." }
+    ],
+    "fixes": [],
+    "foundation": ["Updated database connection components improve reliability and help prevent temporary data access interruptions.", "A production release brought accumulated platform enhancements and stability improvements to users."],
+    "sourcePages": [9, 10]
+  },
+  {
+    "slug": "august-2026-faster-tower",
+    "title": "Get to work faster, keep your place",
+    "period": "August 15–21, 2026",
+    "startDate": "2026-08-15",
+    "endDate": "2026-08-21",
+    "category": "Experience",
+    "summary": "Faster initial loading, clearer Tower feedback, and more reliable automation help teams stay focused on their work.",
+    "benefit": "Spend less time waiting to get started and keep your workflow view as you move through the app.",
+    "highlights": [
+      { "title": "A lighter first load", "description": "Tower loads when you open or interact with it, reducing the work needed when the application first starts.", "benefit": "Get into the application faster while keeping your assistant available when needed." },
+      { "title": "Clear progress, preserved views", "description": "Tower shows loading progress when opening and preserves your view state as you navigate between screens.", "benefit": "Know what is happening and return to the view you were using." },
+      { "title": "Agents connected to their workflows", "description": "Agents automatically connect to and execute their designated workflows.", "benefit": "Keep agent execution aligned with the workflows assigned to it." }
+    ],
+    "fixes": ["Fixed an issue that prevented Tower from launching smoothly.", "Improved the reliability of scheduled background tasks."],
+    "foundation": ["Regular backend and agent-engine production updates delivered operational and foundational improvements."],
+    "sourcePages": [6, 7]
+  },
+  {
+    "slug": "august-2026-agent-execution-controls",
+    "title": "Agent runs that respect your rules",
+    "period": "August 8–14, 2026",
+    "startDate": "2026-08-08",
+    "endDate": "2026-08-14",
+    "category": "Reliability",
+    "summary": "Custom timeout limits and evaluation criteria are actively enforced during agent execution.",
+    "benefit": "Keep automated tasks within the limits and expectations your team has configured.",
+    "highlights": [
+      { "title": "Enforced timeout limits", "description": "Automated agent tasks respect configured timeout limits during execution.", "benefit": "Prevent runs from continuing indefinitely when a time limit has been set." },
+      { "title": "Evaluation settings that apply to runs", "description": "Agent execution actively respects configured evaluation criteria.", "benefit": "Make automated execution more predictable and consistent with your team's preferences." }
+    ],
+    "fixes": [],
+    "foundation": [],
+    "sourcePages": [5, 6]
+  },
+  {
+    "slug": "august-2026-search-and-workflow-control",
+    "title": "Faster search and immediate workflow control",
+    "period": "August 1–7, 2026",
+    "startDate": "2026-08-01",
+    "endDate": "2026-08-07",
+    "category": "Reliability",
+    "summary": "Search recovers from dropped connections, active workflows stop immediately, and integration diagnostics provide clearer feedback.",
+    "benefit": "Find information with fewer interruptions and take control when a workflow needs to stop.",
+    "highlights": [
+      { "title": "Faster, more resilient AI search", "description": "Updated database connection handling improves search response times and automatically recovers from connection drops.", "benefit": "Keep looking up information with fewer interruptions from temporary connection problems." },
+      { "title": "Immediate workflow cancellation", "description": "Stop active workflows immediately without waiting on stuck execution states.", "benefit": "Regain control promptly when a run is no longer needed." },
+      { "title": "Clearer integration diagnostics", "description": "When an integration returns no available actions, Mach 1 explains why and redacts sensitive credentials from the diagnostic feedback.", "benefit": "Troubleshoot missing actions with useful information while protecting credentials." }
+    ],
+    "fixes": ["Fixed automated security lookups where unrelated system files interfered with scans, restoring accurate email lookups."],
+    "foundation": ["Production deployments and aligned release branches streamline future updates.", "Agent release infrastructure was synchronized for more consistent builds."],
+    "sourcePages": [4, 5]
+  },
+  {
+    "slug": "july-2026-workflow-chat-widgets",
+    "title": "Bring workflow-powered chat to your website",
+    "period": "July 25–31, 2026",
+    "startDate": "2026-07-25",
+    "endDate": "2026-07-31",
+    "category": "Capabilities",
+    "summary": "Embeddable workflow chat, self-service widget management, and simpler agent setup make it easier to put Mach 1 to work.",
+    "benefit": "Let administrators manage website chat and troubleshoot connections without waiting for an engineering deployment.",
+    "highlights": [
+      { "title": "Embeddable workflow chat", "description": "Add a public chat experience powered by Mach 1 workflows to your website.", "benefit": "Make your workflows available through a chat experience where visitors already are." },
+      { "title": "Self-service widget management", "description": "Administrators can create, edit, enable, disable, and install public widgets from the Chat Widgets settings page, with protected security credentials.", "benefit": "Manage website chat from one settings page without an engineering deployment for each change." },
+      { "title": "Drag-and-drop image uploads", "description": "Drag multiple images directly into the agent setup interface.", "benefit": "Add images during setup with fewer individual upload steps." },
+      { "title": "On-demand connection checks", "description": "Test external tool connections and see active connections or detailed feedback when a check fails.", "benefit": "Identify connection problems while setting up an integration." }
+    ],
+    "fixes": [],
+    "foundation": ["Agent execution gained development and production environment controls.", "Legacy API route cleanup and routine agent production updates support maintainability and reliability."],
+    "sourcePages": [3, 4]
+  },
+  {
+    "slug": "july-2026-model-choice-and-usage",
+    "title": "More model choice, clearer operations",
+    "period": "July 18–24, 2026",
+    "startDate": "2026-07-18",
+    "endDate": "2026-07-24",
+    "category": "Capabilities",
+    "summary": "OpenRouter expands AI model options, updated defaults reach workflow tools, and usage views become faster and clearer.",
+    "benefit": "Choose from a broader range of models and spend less time checking the status of your operations.",
+    "highlights": [
+      { "title": "Broader AI model selection", "description": "OpenRouter model options are available in the application, with routing support across key evaluation tools, including models such as GPT-5.4 mini.", "benefit": "Give your team more flexibility in selecting models for supported tasks." },
+      { "title": "Updated default models", "description": "Default models moved to Gemini 3.6 Flash across workflow chat, schedule generation, bot configurations, and background systems. Settings pointing to older default versions are updated automatically.", "benefit": "Keep supported workflows on the updated default without manually changing each older setting." },
+      { "title": "Faster usage summaries", "description": "Optimized backend lookups speed up execution summary loading for active accounts.", "benefit": "Review activity with less waiting for usage information to load." },
+      { "title": "Clearer active execution views", "description": "Paused tasks are filtered out of active execution views.", "benefit": "Help support and operations teams focus on work that is currently active." }
+    ],
+    "fixes": ["Fixed failed cancellation of stuck or stale workflow executions so users can clear those runs reliably."],
+    "foundation": ["Unused database tables and system routes were removed to improve maintainability.", "Regular frontend and Pi agent-engine updates keep platform components synchronized."],
+    "sourcePages": [2, 3]
+  },
+  {
+    "slug": "july-2026-tower-and-team-context",
+    "title": "Keep Tower close and team knowledge organized",
+    "period": "July 11–17, 2026",
+    "startDate": "2026-07-11",
+    "endDate": "2026-07-17",
+    "category": "Experience",
+    "summary": "A persistent Tower sidebar keeps assistant sessions in reach, while shared context and secret controls support work across teams.",
+    "benefit": "Keep your place with your assistant and give teams more control over the information and credentials they share.",
+    "highlights": [
+      { "title": "A persistent, resizable Tower", "description": "Tower lives in a resizable right sidebar. Active assistant sessions persist as you navigate, close and reopen panels, or refresh the browser.", "benefit": "Move between tasks without losing your assistant session." },
+      { "title": "Organization and department context", "description": "Share and manage context at organization and department levels, and move information between scopes by promoting or demoting it.", "benefit": "Organize shared knowledge around the teams that need it." },
+      { "title": "Shared secret controls", "description": "Manage secrets at organization and department levels with granular grant controls and clear safety warnings.", "benefit": "Give teams explicit controls over access to shared sensitive credentials." }
+    ],
+    "fixes": [],
+    "foundation": ["Database updates support workflow settings, shared secrets, and organization-wide context while optimizing queries.", "Accumulated application updates and underlying provider maintenance improve the platform foundation."],
+    "sourcePages": [1, 2]
+  }
+]
