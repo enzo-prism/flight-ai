@@ -3,6 +3,7 @@ from copy import deepcopy
 from importlib.util import spec_from_file_location, module_from_spec
 from pathlib import Path
 import unittest
+import json
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = spec_from_file_location('product_pages', ROOT / 'scripts/build-product-pages.py')
@@ -47,6 +48,11 @@ class ReleaseContentTests(unittest.TestCase):
         self.assertEqual(module.coverage_label([record]), 'January 2027')
         self.assertEqual(module.coverage_label(module.RELEASES + [record]), 'July 2026–January 2027')
         self.assertEqual(module.coverage_label(module.RELEASES), 'July–September 2026')
+
+    def test_production_normalizes_relative_asset_routes(self):
+        config = json.loads((ROOT / 'vercel.json').read_text())
+        self.assertIs(config.get('cleanUrls'), True)
+        self.assertIs(config.get('trailingSlash'), False)
 
     def test_customer_content_is_escaped(self):
         html = module.shell('<script>test</script>', '"quoted"', '<p>Safe template</p>')

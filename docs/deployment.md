@@ -31,7 +31,7 @@ From the verified linked checkout:
 vercel --prod --yes
 ```
 
-No framework build is required. `.vercelignore` excludes authoring data, scripts, tests, docs, and asset README files from static hosting. It does not remove these files from GitHub.
+No framework build is required. `cleanUrls: true` removes `.html` and explicit `trailingSlash: false` prevents slash-suffixed article URLs from breaking relative assets. `.vercelignore` excludes authoring data, scripts, tests, docs, and asset README files from static hosting. It does not remove these files from GitHub.
 
 Wait for Ready status and inspect the alias. If GitHub integration also triggers a deployment, identify which deployment owns the production alias and verify the intended source. Do not treat an uploaded URL as proof that the public alias changed.
 

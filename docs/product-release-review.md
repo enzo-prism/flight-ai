@@ -24,6 +24,7 @@ The customer quote is an excerpt of Craig McGowan's existing Trace story on the 
 | Generator accepted duplicate/unsafe slugs and malformed records | Validates dates, categories, required strings, highlights, source pages, and safe unique slugs before writing |
 | Generator could leave orphaned articles after record changes | Refuses unexpected release files; documented explicit rename/redirect process |
 | Authoring files would be public with root static output | `.vercelignore` excludes docs, source content, scripts, tests, CI files, and READMEs |
+| Production accepted trailing-slash article URLs that broke relative assets | Explicit `trailingSlash: false` normalization; live redirect regression check |
 | Sales form claimed receipt without submission | Now clearly prepares an email draft and requires the visitor to send it; no false delivery confirmation |
 
 ## Verification
@@ -31,7 +32,7 @@ The customer quote is an excerpt of Craig McGowan's existing Trace story on the 
 - Initial browser pass: 11 pages at 1440, 768, 390, and 320px (44 page/viewport combinations), no horizontal overflow, broken images, or page errors.
 - Independent product-layout pass also covered breakpoint widths 960/961 and 1024px.
 - Static checks cover 13 public marketing/editorial pages and 454 local references, including assets and fragments.
-- Six regression tests cover invalid slugs/content/dates, ordering, complete search text, coverage dates, and escaped copy.
+- Seven regression tests cover invalid slugs/content/dates, ordering, complete search text, coverage dates, and escaped copy.
 - Deterministic generation and `--check` prevent source/generated drift.
 - Browser checks cover search, combined filters, empty state, reset, mobile menu/Escape/navigation, no-JavaScript content, homepage discovery, and sales draft messaging.
 - CI runs the committed static/unit/syntax checks. CI results and live readback must be recorded separately at publication; this document is not proof of deployment.
