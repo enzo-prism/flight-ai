@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Sales — Mach 1</title>
-  <meta name="description" content="Talk to the Mach 1 sales team about support and sales automation. Leave your work email and we will reach out within one business day.">
+  <meta name="description" content="Talk to the Mach 1 sales team about support and sales automation. Prepare an email to tell us about your support and sales workflows.">
   <meta name="theme-color" content="#0B1B33">
   <link rel="icon" type="image/png" href="assets/brand/mach1-mark.png">
   <link rel="stylesheet" href="styles.css">
@@ -28,13 +28,13 @@
       <div class="wrap narrow center">
         <p class="step-no">Contact sales</p>
         <h1>Talk to a human about Mach&nbsp;1.</h1>
-        <p class="lede-sm">Leave your work email and the sales crew will reach out within one business day — or just try the product.</p>
+        <p class="lede-sm">Tell us about your workflows. Enter your work email to prepare a message, then send it from your email app.</p>
         <div class="sales-card">
           <form id="salesForm" action="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry" method="post" enctype="text/plain">
             <label for="salesEmail">Work email</label>
             <div class="sales-row">
               <input id="salesEmail" name="email" type="email" required placeholder="you@company.com" autocomplete="email">
-              <button class="btn solid lg" type="submit">Contact Sales</button>
+              <button class="btn solid lg" type="submit">Prepare email</button>
             </div>
             <p class="micro">Prefer email? <a class="textlink" href="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry">sales@mach1ai.com</a></p>
           </form>
@@ -43,9 +43,9 @@
               <circle cx="22" cy="22" r="20" stroke="#0B7A4B" stroke-width="3"/>
               <path d="M14 22.5 19.5 28 30 16.5" stroke="#0B7A4B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <h2>Request received.</h2>
-            <p>Thanks — sales will reach out to <strong id="salesEcho"></strong> within one business day.</p>
-            <p><a class="btn outline" id="salesMailto" href="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry">Open email app instead</a></p>
+            <h2>Your email draft is ready.</h2>
+            <p>Your draft includes <strong id="salesEcho"></strong> as your contact email. Open the draft below and send it from your email app to contact the sales team. Nothing has been sent yet.</p>
+            <p><a class="btn outline" id="salesMailto" href="mailto:sales@mach1ai.com?subject=Mach%201%20sales%20inquiry">Open email draft</a></p>
           </div>
         </div>
         <p class="micro"><a class="textlink" href="index.html">← Back to home</a></p>

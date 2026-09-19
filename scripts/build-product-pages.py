@@ -3,11 +3,74 @@
 from pathlib import Path
 from html import escape as e
 import json
+import argparse
+from datetime import date
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASES = json.loads((ROOT / 'content/releases.json').read_text())
-if isinstance(RELEASES, dict): RELEASES = RELEASES['releases']
-RELEASES = sorted(RELEASES, key=lambda x:x['endDate'], reverse=True)
+CATEGORIES = ('Capabilities', 'Experience', 'Reliability')
+
+
+def validate_releases(records):
+    """Reject malformed content before touching generated pages."""
+    if not isinstance(records, list) or not records:
+        raise ValueError('Expected a non-empty release list')
+    slugs = set()
+    for record in records:
+        if not isinstance(record, dict):
+            raise ValueError('Each release must be an object')
+        for key in ('slug', 'title', 'period', 'startDate', 'endDate', 'category', 'summary', 'benefit'):
+            if not isinstance(record.get(key), str) or not record[key].strip():
+                raise ValueError(f'Release requires non-empty {key}')
+        slug = record['slug']
+        if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', slug) or slug in slugs:
+            raise ValueError(f'Invalid or duplicate release slug: {slug}')
+        slugs.add(slug)
+        if any(not re.fullmatch(r'\d{4}-\d{2}-\d{2}', record[key]) for key in ('startDate', 'endDate')):
+            raise ValueError(f'Dates must use YYYY-MM-DD: {slug}')
+        start, end = (date.fromisoformat(record[key]) for key in ('startDate', 'endDate'))
+        if start > end:
+            raise ValueError(f'Reversed release period: {slug}')
+        if record['category'] not in CATEGORIES:
+            raise ValueError(f'Unknown release category: {slug}')
+        if not isinstance(record.get('highlights'), list) or not record['highlights']:
+            raise ValueError(f'Release requires highlights: {slug}')
+        for highlight in record['highlights']:
+            if not isinstance(highlight, dict) or any(not isinstance(highlight.get(key), str) or not highlight[key].strip() for key in ('title', 'description', 'benefit')):
+                raise ValueError(f'Invalid highlight: {slug}')
+        for key in ('fixes', 'foundation'):
+            if not isinstance(record.get(key), list) or any(not isinstance(item, str) or not item.strip() for item in record[key]):
+                raise ValueError(f'{key} must be a list of non-empty strings: {slug}')
+        pages = record.get('sourcePages')
+        if not isinstance(pages, list) or not pages or any(type(page) is not int or page < 1 for page in pages):
+            raise ValueError(f'Release requires positive source page numbers: {slug}')
+    return sorted(records, key=lambda item: item['endDate'], reverse=True)
+
+
+def search_text(record):
+    values = [record[key] for key in ('title', 'summary', 'period', 'benefit')]
+    values.extend(highlight[key] for highlight in record['highlights'] for key in ('title', 'description', 'benefit'))
+    values.extend(record['fixes'] + record['foundation'])
+    return ' '.join(values)
+
+
+def coverage_label(records):
+    start = min(date.fromisoformat(record['startDate']) for record in records)
+    end = max(date.fromisoformat(record['endDate']) for record in records)
+    if (start.year, start.month) == (end.year, end.month):
+        return start.strftime('%B %Y')
+    if start.year == end.year:
+        return f"{start:%B}–{end:%B %Y}"
+    return f"{start:%B %Y}–{end:%B %Y}"
+
+
+RELEASES = validate_releases(json.loads((ROOT / 'content/releases.json').read_text()))
+OUTPUTS = {}
+
+
+def emit(path, content):
+    OUTPUTS[path] = content
+
 
 def shell(title, description, body, active='product', prefix=''):
     nav = [('product.html','Product','product'), ('index.html#customers','Customers','customers'), ('updates.html','Updates','updates')]
@@ -18,7 +81,8 @@ def shell(title, description, body, active='product', prefix=''):
 <title>{e(title)} — Mach 1</title><meta name="description" content="{e(description,quote=True)}">
 <meta property="og:title" content="{e(title,quote=True)} — Mach 1"><meta property="og:description" content="{e(description,quote=True)}"><meta property="og:type" content="{'article' if prefix else 'website'}">
 <meta name="theme-color" content="#0B1B33"><link rel="icon" type="image/png" href="{prefix}assets/brand/mach1-mark.png">
-<link rel="stylesheet" href="{prefix}styles.css"><link rel="stylesheet" href="{prefix}pages.css"><script src="{prefix}pages.js" defer></script></head>
+<link rel="stylesheet" href="{prefix}styles.css"><link rel="stylesheet" href="{prefix}pages.css"><script src="{prefix}pages.js" defer></script>
+<noscript><style>.editorial .menu-btn{{display:none!important}}@media(max-width:960px){{.editorial .nav{{position:static}}.editorial #mobileMenu[hidden]{{display:block!important;padding:8px 28px 20px;border-bottom:1px solid var(--line)}}}}</style></noscript></head>
 <body class="editorial"><a class="skip" href="#main">Skip to content</a>
 <header class="nav" id="top"><div class="wrap nav-in"><a class="brand" href="{prefix}index.html" aria-label="Mach 1 home"><img class="brand-logo" src="{prefix}assets/brand/mach1-logo.png" alt="Mach 1" height="28"></a><nav class="links" aria-label="Primary">{links}</nav><div class="nav-cta"><a class="btn outline" href="{prefix}sales.html">Contact Sales</a><a class="btn solid" href="{prefix}app.html">Try the demo <span aria-hidden="true">↗</span></a></div><button class="menu-btn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><span></span><span></span><span></span></button></div><div class="mobile-menu" id="mobileMenu" hidden>{mobile}<div class="mcta"><a class="btn solid" href="{prefix}app.html">Try the demo</a><a class="btn outline" href="{prefix}sales.html">Contact Sales</a></div></div></header>
 <main id="main" tabindex="-1">{body}</main>
@@ -48,12 +112,11 @@ product = f'''
 <section id="platform" class="platform-section"><div class="wrap"><div class="section-heading"><p class="eyebrow">A stronger foundation</p><h2>Ready for the way your work grows.</h2></div><div class="platform-grid"><article><h3>More model choice</h3><p>OpenRouter selection expands the models available to teams, alongside upgraded defaults for workflow chats and automated tools.</p></article><article><h3>Scoped access</h3><p>Organization and department-level secret management gives teams granular grants and safety warnings around sensitive credentials.</p></article><article><h3>Room for history</h3><p>Long-term cloud archiving stores historical account data efficiently while supporting responsive day-to-day operations.</p></article></div></div></section>
 <section id="latest"><div class="wrap"><div class="section-heading heading-row"><div><p class="eyebrow">Always moving forward</p><h2>Small improvements.<br>Meaningful differences.</h2></div><a class="textlink" href="updates.html">All product updates →</a></div><div class="update-grid">{''.join(card(r) for r in RELEASES[:3])}</div></div></section>
 <section class="page-cta"><div class="wrap"><p class="eyebrow">See it in context</p><h2>Meet your team’s next advantage.</h2><p>Explore the interactive demo, or talk with us about your workflows.</p><div class="cta-row"><a class="btn light lg" href="app.html">Try the demo ↗</a><a class="btn outline lg" href="sales.html">Contact Sales</a></div></div></section>'''
-(ROOT/'product.html').write_text(shell('AI agents with context and control', 'Explore Tower, shared knowledge, workflow controls, website chat, integration diagnostics, and AI usage visibility in Mach 1.', product))
+emit(ROOT/'product.html', shell('AI agents with context and control', 'Explore Tower, shared knowledge, workflow controls, website chat, integration diagnostics, and AI usage visibility in Mach 1.', product))
 
-rows = ''.join(f'''<article class="release-row" data-category="{e(r['category'])}" data-search="{e(r['title']+' '+r['summary']+' '+r['period']+' '+' '.join(h['title']+' '+h['description'] for h in r['highlights']),quote=True)}"><div class="release-date"><span class="eyebrow">Release period</span><p>{e(r['period'])}</p><span class="release-tag">{e(r['category'])}</span></div><div><h2><a href="{release_link(r)}">{e(r['title'])}</a></h2><p>{e(r['summary'])}</p><p class="release-benefit">{e(r['benefit'])}</p><a class="textlink" href="{release_link(r)}">Read the release notes →</a></div></article>''' for r in RELEASES)
-updates=f'''<section class="updates-hero"><div class="wrap"><p class="eyebrow">Mach 1 / Product updates</p><h1>Better with<br>every release.</h1><p class="lede">New capabilities, thoughtful refinements, and the fixes that make everyday work feel easier.</p><p class="coverage">July–September 2026 · {len(RELEASES)} release summaries</p></div></section><section class="release-index"><div class="wrap"><div class="release-tools" hidden><div class="release-filters" role="group" aria-label="Filter releases">{''.join(f'<button type="button" data-filter="{v}" aria-pressed="{str(v=="All").lower()}">{v}</button>' for v in ['All','Capabilities','Experience','Reliability'])}</div><label class="release-search">Search updates<input type="search" id="releaseSearch" placeholder="Tower, chat, costs…"></label></div><p class="result-count" role="status" hidden></p><div id="releaseList">{rows}</div><p id="noResults" hidden>No updates match your search. Try another term or choose All.</p></div></section><section class="page-cta"><div class="wrap"><h2>See how it all comes together.</h2><p>Explore the capabilities behind the updates.</p><a class="btn light lg" href="product.html">Explore the product →</a></div></section>'''
-(ROOT/'updates.html').write_text(shell('Product updates', 'Explore Mach 1 release notes and learn how each update improves customer conversations, workflow control, and everyday operations.',updates,'updates'))
-(ROOT/'updates').mkdir(exist_ok=True)
+rows = ''.join(f'''<article class="release-row" data-category="{e(r['category'])}" data-search="{e(search_text(r),quote=True)}"><div class="release-date"><span class="eyebrow">Release period</span><p>{e(r['period'])}</p><span class="release-tag">{e(r['category'])}</span></div><div><h2><a href="{release_link(r)}">{e(r['title'])}</a></h2><p>{e(r['summary'])}</p><p class="release-benefit">{e(r['benefit'])}</p><a class="textlink" href="{release_link(r)}">Read the release notes →</a></div></article>''' for r in RELEASES)
+updates=f'''<section class="updates-hero"><div class="wrap"><p class="eyebrow">Mach 1 / Product updates</p><h1>Better with<br>every release.</h1><p class="lede">New capabilities, thoughtful refinements, and the fixes that make everyday work feel easier.</p><p class="coverage">{coverage_label(RELEASES)} · {len(RELEASES)} release summaries</p></div></section><section class="release-index"><div class="wrap"><div class="release-tools" hidden><div class="release-filters" role="group" aria-label="Filter releases">{''.join(f'<button type="button" data-filter="{v}" aria-pressed="{str(v=="All").lower()}">{v}</button>' for v in ['All','Capabilities','Experience','Reliability'])}</div><label class="release-search">Search updates<input type="search" id="releaseSearch" placeholder="Tower, chat, costs…"></label></div><p class="result-count" role="status" hidden></p><div id="releaseList">{rows}</div><p id="noResults" hidden>No updates match your search. Try another term or choose All.</p></div></section><section class="page-cta"><div class="wrap"><h2>See how it all comes together.</h2><p>Explore the capabilities behind the updates.</p><a class="btn light lg" href="product.html">Explore the product →</a></div></section>'''
+emit(ROOT/'updates.html', shell('Product updates', 'Explore Mach 1 release notes and learn how each update improves customer conversations, workflow control, and everyday operations.',updates,'updates'))
 for i,r in enumerate(RELEASES):
     highlights=''.join(f'''<section class="release-detail-section"><p class="eyebrow">Improvement {n+1:02}</p><h2>{e(h['title'])}</h2><p>{e(h['description'])}</p><div class="outcome"><strong>What this means for your team</strong><p>{e(h['benefit'])}</p></div></section>''' for n,h in enumerate(r['highlights']))
     def itemtext(v):
@@ -64,5 +127,21 @@ for i,r in enumerate(RELEASES):
     if i+1<len(RELEASES): adjacent+=f'<a href="{RELEASES[i+1]["slug"]}.html"><span>← Previous release period</span><strong>{e(RELEASES[i+1]["title"])}</strong></a>'
     if i>0: adjacent+=f'<a href="{RELEASES[i-1]["slug"]}.html"><span>Next release period →</span><strong>{e(RELEASES[i-1]["title"])}</strong></a>'
     article=f'''<article><header class="release-hero"><div class="wrap"><a class="back-link" href="../updates.html">← All product updates</a><p class="eyebrow">{e(r['category'])} / Release notes</p><h1>{e(r['title'])}</h1><p class="lede">{e(r['summary'])}</p><p class="period">Release period: {e(r['period'])}</p></div></header><div class="wrap release-layout"><aside class="release-aside"><p class="eyebrow">The customer benefit</p><p>{e(r['benefit'])}</p><a class="textlink" href="../product.html">Explore Mach 1 →</a></aside><div class="release-body">{highlights}{extras}<div class="release-end"><h2>Put the improvements in context.</h2><p>See how Mach 1 brings knowledge, tools, and workflows together for your team.</p><a class="btn solid" href="../product.html">Explore the product →</a></div><nav class="adjacent-releases" aria-label="Adjacent releases">{adjacent}</nav></div></div></article>'''
-    (ROOT/'updates'/f'{r["slug"]}.html').write_text(shell(r['title'],r['summary'],article,'updates','../'))
-print(f'Generated product page, updates index, and {len(RELEASES)} release pages.')
+    emit(ROOT/'updates'/f'{r["slug"]}.html', shell(r['title'],r['summary'],article,'updates','../'))
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check', action='store_true', help='Check committed pages without writing')
+    args = parser.parse_args()
+    unexpected = set((ROOT / 'updates').glob('*.html')) - set(OUTPUTS)
+    if unexpected:
+        parser.error('Unlisted release pages need explicit review: ' + ', '.join(str(path.relative_to(ROOT)) for path in sorted(unexpected)))
+    if args.check:
+        stale = [str(path.relative_to(ROOT)) for path, content in OUTPUTS.items() if not path.exists() or path.read_text() != content]
+        if stale:
+            parser.error('Regenerate stale pages: ' + ', '.join(stale))
+        print(f'{len(OUTPUTS)} generated pages are current.')
+    else:
+        for path, content in OUTPUTS.items():
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content)
+        print(f'Generated product page, updates index, and {len(RELEASES)} release pages.')

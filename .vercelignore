@@ -1,0 +1,10 @@
+# Publish static website assets, not authoring material or review notes.
+README.md
+docs/
+content/
+scripts/
+tests/
+.github/
+**/README.md
+**/__pycache__/
+*.pyc
