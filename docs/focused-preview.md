@@ -6,19 +6,19 @@ The September 19, 2026 concept brief replaces the old sign-in/onboarding and gen
 
 This is a proposed experience, separate from the real Mach 1 capabilities documented in the supplied product-release PDF. Meridian, its teammates, accounts, conversations, findings, and outcomes are fictional. There is no model call, authentication, ingestion, credential collection, upload, live connection, or message sending. The contact page prepares an email that the visitor must review and send themselves.
 
-Public entry points (use `app.html` locally):
+Public entry points (use `sample.html` locally):
 
-- Support: `/app#/support/priorities`
-- Sales: `/app#/sales/priorities`
-- Leadership: `/app#/support/overview` or `/app#/sales/overview`
+- Support: `/sample#/support/priorities`
+- Sales: `/sample#/sales/priorities`
+- Leadership: `/sample#/support/overview` or `/sample#/sales/overview`
 
 ## Architecture
 
-The static site has no framework build or application server. `app.html` loads `product.js` as an ES module and `product.css` for the preview only.
+The fictional preview itself does not call the application server. The repository now also contains the separate real product at `/app`; see [product onboarding](product-onboarding.md). `sample.html` loads `product.js` as an ES module and `product.css` for the preview only.
 
 | Area | File | Responsibility |
 | --- | --- | --- |
-| Shell and interactions | `product.js`, `app.html` | Three destinations, lenses, evidence, dialogs, actions, focus and responsive continuity |
+| Shell and interactions | `product.js`, `sample.html` | Three destinations, lenses, evidence, dialogs, actions, focus and responsive continuity |
 | Presentation | `product.css` | Monochrome surfaces, responsive list/detail, touch targets, focus, reduced motion and forced colors |
 | Router | `demo/router.mjs` | Canonical hash URLs, selected conversation/finding, filters, history and retired-route redirects |
 | Fixtures | `demo/fixtures.mjs` | Conversation messages, precomputed findings, people, sources and frozen clock |

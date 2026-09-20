@@ -1,10 +1,13 @@
-# Publish static website assets, not authoring material or review notes.
+# Upload build inputs and server code; scripts/build-site.mjs controls public assets.
 README.md
 docs/
 content/
-scripts/
 tests/
 .github/
 **/README.md
 **/__pycache__/
 *.pyc
+
+.env*
+public/
+work/

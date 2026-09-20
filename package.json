@@ -1,0 +1,20 @@
+{
+  "name": "mach1-product",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "test": "node --test tests/demo-*.test.mjs tests/product-*.test.mjs",
+    "dev": "node scripts/dev-product.mjs"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
+    "cookie": "^2.0.1",
+    "pg": "^8.23.0",
+    "zod": "^4.6.5"
+  }
+}

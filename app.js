@@ -316,7 +316,7 @@
         return;
       }
       const email = input ? input.value.trim() : '';
-      window.location.href = 'app.html' + (email ? `?email=${encodeURIComponent(email)}` : '');
+      window.location.href = 'app.html';
     });
   }
 })();

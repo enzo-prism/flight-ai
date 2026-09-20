@@ -38,7 +38,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
     });
     console.log(name, JSON.stringify(scans.at(-1)));
   };
-  await page.goto(base + "/app.html");
+  await page.goto(base + "/sample.html");
   await page.locator(".conversation-row").first().waitFor();
   await scan("desktop priorities");
   await page.locator(".conversation-row").first().click();
@@ -93,7 +93,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
     await page.locator(".detail-heading").innerText(),
     /restore access/,
   );
-  await page.goto(base + "/app.html#/support/priorities?conversation=missing");
+  await page.goto(base + "/sample.html#/support/priorities?conversation=missing");
   await page.locator(".conversation-row").first().waitFor();
   await page.keyboard.press("Tab");
   assert.equal(await page.locator(".detail-pane").count(), 0);
@@ -105,7 +105,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
     { width: 1024, height: 768 },
   ]) {
     await page.setViewportSize(size);
-    await page.goto(base + "/app.html#/support/priorities");
+    await page.goto(base + "/sample.html#/support/priorities");
     await page.locator(".conversation-row").first().waitFor();
     assert.ok(
       await page.evaluate(
@@ -132,7 +132,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
     });
   });
   const bp = await blocked.newPage();
-  await bp.goto(base + "/app.html");
+  await bp.goto(base + "/sample.html");
   await bp.getByText(/Browser storage is unavailable/).waitFor();
   await bp.locator(".conversation-row").first().click();
   await bp.getByRole("button", { name: "Start working", exact: true }).click();
@@ -148,7 +148,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
     localStorage.setItem("mach1.v1.example", "legacy");
   });
   const mp = await malformed.newPage();
-  await mp.goto(base + "/app.html");
+  await mp.goto(base + "/sample.html");
   await mp.getByText(/Saved sample changes could not be read/).waitFor();
   await mp.locator(".demo-menu summary").click();
   await mp

@@ -15,7 +15,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
   const page = await context.newPage();
   let errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto(base + "/app.html");
+  await page.goto(base + "/sample.html");
   await page
     .getByRole("heading", { name: "What needs attention", exact: true })
     .waitFor();
@@ -178,7 +178,7 @@ const base = process.env.SITE_URL || "http://127.0.0.1:8080";
       path: process.env.SCREENSHOT_PATH,
       fullPage: true,
     });
-  await page.goto(base + "/app.html#/old-agents");
+  await page.goto(base + "/sample.html#/old-agents");
   await page
     .getByRole("heading", { name: "What needs attention", exact: true })
     .waitFor();

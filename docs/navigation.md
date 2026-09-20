@@ -2,9 +2,11 @@
 
 ## Information architecture
 
-Every marketing page uses the same header and footer from `scripts/site_chrome.py`. The header offers a Product disclosure with an overview and direct feature shortcuts; Integrations and Customers link to the existing homepage sections; Updates leads to the release index. Contact sales and Try the demo remain available at every screen size. Footer labels describe their actual destinations; placeholders for nonexistent documentation, pricing, help, and security pages have been removed.
+Every marketing page uses the same header and footer from `scripts/site_chrome.py`. The header offers a Product disclosure with an overview and direct feature shortcuts; Integrations and Customers link to the existing homepage sections; Updates leads to the release index. Contact sales and Get Started remain available at every screen size. Get Started leads to the authenticated `/app`; sample links explicitly lead to `/sample`. Footer labels describe their actual destinations; placeholders for nonexistent documentation, pricing, help, and security pages have been removed.
 
-The focused demo has its own three-destination workspace shell: Priorities, Overview, and Connections. Support and Sales share components and routes. Its logo and website link return to Product without erasing local progress. No sign-in or onboarding is required. See [focused-preview.md](focused-preview.md) for deep links, mobile detail behavior, and state continuity.
+The real product at `/app` begins with account creation/sign-in, connector authorization, then Sales/Support selection. Its workspace has Priorities, Overview, and Connections, with server-persisted state and sign-out. It contains no seeded sample conversations. See [product-onboarding.md](product-onboarding.md).
+
+The separate fictional sample at `/sample` has its own three-destination workspace shell: Priorities, Overview, and Connections. Support and Sales share components and routes. Its logo and website link return to Product without erasing local progress. No sign-in or onboarding is required. See [focused-preview.md](focused-preview.md) for deep links, mobile detail behavior, and state continuity.
 
 ## Rendering and maintenance
 
@@ -29,4 +31,4 @@ Breadcrumbs connect Product → Updates → Release notes, alongside adjacent-re
 
 ## Verification checklist
 
-Check homepage, Product, Updates, Sales, and a nested release at desktop, 901/900px breakpoints, tablet, and 390/320px mobile widths. Exercise product disclosure, Escape/focus, same-page shortcuts, cross-page anchors, outside click, Tab exit, resize reset, compact landscape scrolling, and no-JavaScript navigation. Verify article → breadcrumb restores both search and category, and that a direct/shared query URL restores filters. Check the demo exit at narrow widths without clearing existing state.
+Check homepage, Product, Updates, Sales, and a nested release at desktop, 901/900px breakpoints, tablet, and 390/320px mobile widths. Exercise product disclosure, Escape/focus, same-page shortcuts, cross-page anchors, outside click, Tab exit, resize reset, compact landscape scrolling, and no-JavaScript navigation. Verify article → breadcrumb restores both search and category, and that a direct/shared query URL restores filters. Check the sample exit at narrow widths without clearing sample state. Verify Get Started reaches real authentication, sample links remain separate, connector callbacks return to setup, and browser history never bypasses authenticated API checks.

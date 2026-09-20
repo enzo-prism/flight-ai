@@ -1,6 +1,6 @@
-# Mach 1 website
+# Mach 1 website and product
 
-A static marketing website, product overview, release archive, and interactive product demo for Mach 1's support and sales agents.
+Mach 1 combines a marketing website, release archive, authenticated conversation workspace, and a separate fictional sample. The real product uses Supabase authentication and tenant storage, read-only OAuth connectors, and bounded Jev analysis. Provider configuration and live verification are separate from implemented code.
 
 **Production:** https://flight-ai-two.vercel.app
 
@@ -8,33 +8,42 @@ A static marketing website, product overview, release archive, and interactive p
 
 ## Run locally
 
-Python 3.10+ serves the site; no package installation or framework build is required:
+Use Node.js 22 and Python 3.10+:
 
 ```sh
-python3 -m http.server 8080 --bind 127.0.0.1
+npm ci
+npm run build
+npm run dev
 ```
 
-Open `http://127.0.0.1:8080/`. Use `.html` paths locally. Vercel redirects those paths to extensionless URLs in production with `cleanUrls: true`.
+Open `http://127.0.0.1:8092/`. The local server serves only the explicit `public/` build output and `/api/product`. Run the build again after editing browser assets. To use configured development services, load an ignored environment file:
+
+```sh
+node --env-file=.env.local scripts/dev-product.mjs
+```
+
+Without service configuration, the product displays unavailable services honestly. `/sample.html` works without authentication or external services. Vercel uses extensionless `/app` and `/sample` routes with `cleanUrls: true`.
 
 ## Pages and ownership
 
 | File | Purpose | Edit directly? |
 | --- | --- | --- |
-| `index.html`, `styles.css`, `app.js` | Marketing, customer stories, video player, animated hero | Yes |
-| `sales.html` | Prepare a sales email draft; does not send or store inquiries | Yes |
-| `product.html` | Product features, customer value, existing Trace quotation | **No:** generated |
-| `updates.html`, `updates/*.html` | Release index and full release-period articles | **No:** generated |
+| `index.html`, `styles.css`, `app.js` | Marketing, customer stories, media | Yes |
+| `sales.html` | Prepare a sales email draft; does not submit inquiries | Yes |
+| `product.html` | Product overview and sourced customer proof | No: generated |
+| `updates.html`, `updates/*.html` | Release archive and full release articles | No: generated |
 | `content/releases.json` | Release content and source page references | Yes |
-| `scripts/build-product-pages.py` | Product copy, shared page templates, validation, generation | Yes |
-| `pages.css`, `pages.js` | Product/release styling, shareable search and filter restoration | Yes |
-| `scripts/site_chrome.py` | Shared static header/footer for every public marketing page | Yes |
-| `navigation.css`, `navigation.js` | Responsive navigation, product disclosure, keyboard and anchor handling | Yes |
-| `app.html`, `product.css`, `product.js` | Focused Support/Sales concept preview: Priorities, Overview, Connections | Yes |
-| `demo/*.mjs` | Fictional fixtures, state, routing, selectors and precomputed analysis boundary | Yes |
-| `assets/` | Brand, customer media, connector icons, ASCII animation | Preserve provenance |
-| `vercel.json`, `.vercelignore` | Static hosting and authoring-file exclusions | Yes |
+| `scripts/build-product-pages.py`, `scripts/site_chrome.py` | Content generation and shared marketing header/footer | Yes |
+| `pages.css`, `pages.js`, `navigation.css`, `navigation.js` | Editorial pages and website navigation | Yes |
+| `app.html`, `live.css`, `live-app.js` | Real sign-in, connector onboarding, Sales/Support workspace | Yes |
+| `api/product.mjs`, `server/*.mjs` | Authenticated API, provider adapters, analysis, encryption | Yes |
+| `db/*.sql` | Tenant schema, RLS, atomic operations and scan locks | Version deliberately |
+| `sample.html`, `product.css`, `product.js`, `demo/*.mjs` | Separate fictional, browser-local concept preview | Yes |
+| `scripts/build-site.mjs` | Explicit public-asset allowlist | Yes |
+| `assets/` | Brand, customer media, connector icons | Preserve provenance |
+| `vercel.json`, `.vercelignore` | Build/deployment configuration | Yes |
 
-There are no application server endpoints or runtime package dependencies. The marketing homepage loads Lordicon from its CDN; product and release pages use local assets. `product.js` is the existing demo application, not the new product marketing page's controller.
+`public/` is generated and disposable. Never deploy the whole repository as static output: server code, database files, environment files, tests, and docs must remain outside it.
 
 ## Edit product and release content
 
@@ -42,65 +51,66 @@ There are no application server endpoints or runtime package dependencies. The m
 python3 scripts/build-product-pages.py
 ```
 
-Commit both source and generated HTML. The same command also refreshes shared headers and footers in `index.html` and `sales.html`; their main content remains hand-authored. Edit `scripts/site_chrome.py` for navigation, not individual page headers. The generator validates all release content before writing, derives coverage dates from the records, and refuses duplicate/unsafe slugs or unlisted release HTML. It does not delete retired pages automatically.
+Commit source and generated HTML. This also updates the shared header/footer in `index.html` and `sales.html`; their main content remains hand-authored. Edit `scripts/site_chrome.py` rather than individual generated headers. The generator validates release records, dates, and slugs before writing.
 
-All new-page content and navigation work without JavaScript, including a mobile menu fallback. Search and category filtering are progressive enhancements. Search covers release summaries, highlights, customer benefits, fixes, and foundation notes.
-
-The product menu uses native disclosure. All marketing pages share Product, Integrations, Customers, Updates, Contact sales, and Try the demo. Mobile menus support Escape, outside click, keyboard focus, compact-height scrolling, and breakpoint reset. Release filters are shareable through `q`/`type` URL parameters, with optional session storage preserving breadcrumb return context. See [navigation behavior](docs/navigation.md).
-
-Read [the editing guide](docs/content-maintenance.md) and [the PDF source map](docs/product-content-sources.md) before adding claims or releases.
+Marketing navigation and release reading work without JavaScript. Search and category filters are progressive enhancements with shareable `q`/`type` URLs. **Get Started** leads to the real product; the sample has a separate label and destination. See [navigation](docs/navigation.md), [content maintenance](docs/content-maintenance.md), and [PDF provenance](docs/product-content-sources.md).
 
 ## Verify
 
-Python 3.10+ and Node.js 22+ are sufficient for the committed checks:
-
 ```sh
+npm ci
 python3 scripts/build-product-pages.py --check
 python3 -m unittest discover -s tests -v
 python3 scripts/verify-site.py
+npm run build
+npm test
+node --check live-app.js
 node --check navigation.js
 node --check pages.js
 node --check app.js
 node --check product.js
-node --check assets/icons.js
-node --test tests/demo-*.test.mjs
 git diff --check
 ```
 
-GitHub Actions runs these checks for main pushes and pull requests. They validate generated-content freshness, content boundaries, safe slugs and dates, search indexing, local links/assets/fragments, page headings, duplicate IDs, and JavaScript syntax. They do not replace browser checks or live deployment readback. See [the review](docs/product-release-review.md) for tested browser behavior and remaining limitations.
+`npm test` runs the sample and product unit suites. They cover source fixtures, routing/state, provider normalization and error boundaries, Jev response validation, authentication/tenant guards, and backend scan behavior. Mock tests do not prove provider authorization or live analysis.
 
 ### Browser verification
 
-The optional browser checks need Playwright and axe-core as development tools only. Install them in a scratch directory and use a running local server:
+Install pinned browser tooling in scratch space, then run against the local product server:
 
 ```sh
-npm install --prefix work/demo-qa --no-audit --no-fund playwright@1.62.1 axe-core@4.13.0
-work/demo-qa/node_modules/.bin/playwright install chromium
-export PLAYWRIGHT_MODULE="$PWD/work/demo-qa/node_modules/playwright"
-export AXE_MODULE="$PWD/work/demo-qa/node_modules/axe-core/axe.min.js"
-export SITE_URL="http://127.0.0.1:8080"
+npm install --prefix work/browser-qa --no-audit --no-fund playwright@1.62.1 axe-core@4.13.0
+work/browser-qa/node_modules/.bin/playwright install chromium
+export PLAYWRIGHT_MODULE="$PWD/work/browser-qa/node_modules/playwright"
+export AXE_MODULE="$PWD/work/browser-qa/node_modules/axe-core/axe.min.js"
+export SITE_URL="http://127.0.0.1:8092"
+node tests/browser/product.cjs
 node tests/browser/core.cjs
 node tests/browser/edges.cjs
 node tests/browser/continuity.cjs
 ```
 
-`CHROME_PATH` optionally selects an already installed Chrome executable. The suites use isolated browser contexts and fictional data only. Core exercises actions, copying, reloads, metrics, Tower, reset, and mobile Escape. Edges checks WCAG A/AA rules with axe, responsive layouts, history/scroll, malformed or blocked storage, and asset failures. Continuity checks focus and prior regression cases. Human comprehension and manual screen-reader testing remain separate checks.
+`CHROME_PATH` can select an installed Chrome executable. The product browser suite mocks API responses to verify onboarding, connectors, role selection, evidence, outcomes, drafts, metrics, logout, and accessibility. The other three suites exercise `/sample.html` and fictional data only. Manual screen-reader and customer usability checks remain separate.
+
+Authenticated service and database integration checks require an explicitly selected development project. See [product onboarding](docs/product-onboarding.md) for their effects and commands. They are intentionally not run by ordinary CI.
+
+## Real product and sample boundaries
+
+The real `/app` contains no seeded customer conversations. Users authenticate, authorize configured sources, choose Sales or Support, and explicitly run bounded scans. Evidence comes from imported messages, and analytics come from persisted records. Drafts are saved and copied; messages are not sent to customers. A configured adapter is not a connected account, and a connected account is not evidence of a completed scan.
+
+At implementation verification, Supabase email authentication was enabled; Google, Apple, and SSO were disabled. Connector OAuth application credentials and the AI Gateway key were absent. Until those are configured and tested, customers cannot complete live connector analysis. This is an operational snapshot, not a permanent capability setting; check `/api/product?action=config` when deploying. See [connector setup](docs/connector-setup.md) and [product onboarding](docs/product-onboarding.md).
+
+The `/sample` preview opens directly into clearly fictional conversations without sign-in. Its state remains browser-local, and Tower stops at Awaiting approval. It never becomes a user's real workspace. See [focused preview](docs/focused-preview.md). Release articles describe the supplied Mach 1 feature source; they do not independently prove every described capability exists in this implementation.
 
 ## Deploy
 
-Follow [the deployment runbook](docs/deployment.md). Verify the linked Vercel project before publishing. Production is an explicit action; a local commit or successful static check does not deploy the site.
-
-## Real product versus demo
-
-Product and release pages describe capabilities documented in the supplied Mach 1 Feature Updates PDF. This repository does **not** implement the production Mach 1 platform.
-
-The concept preview opens immediately into fictional customer conversations. It has no sign-in, model calls, live integrations, uploads, credentials, or Send action. Assignments, statuses, editable drafts, and activity remain browser-local; Tower stops at Awaiting approval. Its proposed capabilities are separate from the real product. See [the focused preview guide](docs/focused-preview.md) for architecture, counting rules, direct Support/Sales/Overview links, storage boundaries, and future pilot responsibilities. The sales form prepares a mailto draft and explains that the visitor must send it themselves. There is no lead submission endpoint.
+Follow [the deployment runbook](docs/deployment.md). Verify the project, migration version, environment readiness, CI, production alias, and public API separately. A local build or green unit suite is not deployment proof.
 
 ## Assets and attribution
 
-- Brand assets in `assets/brand/` were sourced from mach1ai.com.
+- Brand assets in `assets/brand/` came from mach1ai.com.
 - Sidebar icons in `assets/icons.js` use Lucide (ISC).
 - Connector SVGs use svgl, Simple Icons, and the existing Google fallback.
-- Customer proof is reused from the existing site; the new product-page quotation preserves Craig McGowan's attribution to Trace.
+- Customer proof is reused from the existing site; Craig McGowan's quotation remains attributed to Trace.
 - Customer media notes: `assets/customers/videos/README.md`.
-- `assets/mail/` contains 56-frame ASCII animation tiers derived from semicolons-dev/asciify's `animations/mail`. The previous project notes record no upstream license file and use for this demo per owner direction. Treat broader reuse as a separate review.
+- `assets/mail/` ASCII frames derive from semicolons-dev/asciify's `animations/mail`. Earlier project notes record no upstream license file and use for this demo per owner direction; broader reuse requires separate review.

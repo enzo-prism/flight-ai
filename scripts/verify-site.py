@@ -28,7 +28,7 @@ class Document(HTMLParser):
 
 
 def main():
-    pages = [ROOT / name for name in ('index.html', 'sales.html', 'product.html', 'updates.html', 'app.html')]
+    pages = [ROOT / name for name in ('index.html', 'sales.html', 'product.html', 'updates.html', 'app.html', 'sample.html')]
     pages.extend(sorted((ROOT / 'updates').glob('*.html')))
     documents = {path: Document(path) for path in pages}
     errors = []

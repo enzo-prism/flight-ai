@@ -16,7 +16,7 @@ const assert = require("node:assert/strict");
   const results = [];
   async function fresh(hash = "") {
     await page.goto(
-      (process.env.SITE_URL || "http://127.0.0.1:8080") + "/app.html" + hash,
+      (process.env.SITE_URL || "http://127.0.0.1:8080") + "/sample.html" + hash,
     );
     await page.waitForSelector(".conversation-row");
     await page.evaluate(() => localStorage.removeItem("mach1.preview.v2"));

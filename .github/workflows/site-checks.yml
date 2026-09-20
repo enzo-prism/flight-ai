@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 jobs:
-  static-checks:
+  source-checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,11 +16,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+      - run: npm ci
       - run: python3 scripts/build-product-pages.py --check
       - run: python3 -m unittest discover -s tests -v
       - run: python3 scripts/verify-site.py
-      - run: node --check navigation.js && node --check pages.js && node --check app.js && node --check product.js && node --check assets/icons.js
-      - run: node --test tests/demo-*.test.mjs
+      - run: npm run build
+      - run: npm test
+      - run: node --check live-app.js && node --check navigation.js && node --check pages.js && node --check app.js && node --check product.js && node --check assets/icons.js
       - run: git diff --check
   browser-checks:
     runs-on: ubuntu-latest
@@ -29,15 +32,26 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: npm install --no-save --no-package-lock playwright@1.62.1 axe-core@4.13.0
-      - run: npx playwright install --with-deps chromium
-      - name: Start static server and verify demo
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --prefix work/browser-qa --no-audit --no-fund playwright@1.62.1 axe-core@4.13.0
+      - run: work/browser-qa/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify product and isolated sample flows
+        env:
+          SITE_URL: http://127.0.0.1:8080
+          PORT: '8080'
         run: |
-          python3 -m http.server 8080 --bind 127.0.0.1 > /tmp/flight-ai-server.log 2>&1 &
-          for attempt in {1..20}; do curl -fsS http://127.0.0.1:8080/app.html > /dev/null && break; sleep 1; done
+          export PLAYWRIGHT_MODULE="$PWD/work/browser-qa/node_modules/playwright"
+          export AXE_MODULE="$PWD/work/browser-qa/node_modules/axe-core/axe.min.js"
+          node scripts/dev-product.mjs > /tmp/flight-ai-server.log 2>&1 &
+          ready=0
+          for attempt in {1..20}; do
+            if curl -fsS "$SITE_URL/app.html" > /dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          test "$ready" = 1
+          node tests/browser/product.cjs
           node tests/browser/core.cjs
           node tests/browser/edges.cjs
           node tests/browser/continuity.cjs

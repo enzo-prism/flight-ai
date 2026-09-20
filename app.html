@@ -5,35 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Explore the Mach 1 concept preview. Find gaps in fictional customer conversations, inspect the evidence, and move work forward."
+      content="Get started with Mach 1. Connect your customer conversations and turn the right insights into your next clear step."
     />
     <meta name="robots" content="noindex" />
-    <title>Priorities · Mach 1 preview</title>
-    <link rel="icon" href="assets/brand/mach1-logo.png" />
+    <title>Get Started · Mach 1</title>
+    <link rel="icon" href="assets/brand/mach1-mark.png" />
     <link rel="stylesheet" href="product.css" />
-    <script type="module" src="product.js"></script>
+    <link rel="stylesheet" href="live.css" />
+    <script type="module" src="live-app.js"></script>
   </head>
-  <body class="preview">
+  <body>
     <a class="skip-link" href="#main-content">Skip to workspace</a>
-    <div id="app">
+    <div id="product-root">
       <main id="main-content" class="empty-state">
-        <h1>Mach 1 preview</h1>
+        <h1>Get started with Mach 1</h1>
         <p>Know what needs attention. See why. Move it forward.</p>
         <noscript
-          ><p>
-            This interactive preview needs JavaScript.
-            <a href="product.html">Explore the product</a> without JavaScript.
-          </p></noscript
+          >Enable JavaScript to sign in.
+          <a href="product.html">Explore the product</a>.</noscript
         >
       </main>
     </div>
-    <dialog id="modal" class="modal" aria-labelledby="modal-title"></dialog>
-    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <div
-      id="announcement"
-      class="sr-only"
+      id="live-status"
+      class="live-status"
       role="status"
       aria-live="polite"
+      hidden
     ></div>
   </body>
 </html>
