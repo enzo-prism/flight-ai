@@ -2,7 +2,7 @@
 
 ## Source of truth
 
-Edit `content/releases.json` for releases and `scripts/build-product-pages.py` for product copy/templates. Generated HTML is committed for dependency-free hosting. Do not edit generated pages by hand: regeneration replaces them.
+Edit `content/releases.json` for releases, `scripts/build-product-pages.py` for product copy/templates, and `scripts/site_chrome.py` for shared navigation/footer content. Generation refreshes the shared regions of the hand-authored homepage and sales page as well as the full product/release pages. Generated HTML is committed for dependency-free hosting. Do not edit generated pages by hand: regeneration replaces them.
 
 ## Add a release
 

@@ -8,20 +8,31 @@
   <meta name="theme-color" content="#0B1B33">
   <link rel="icon" type="image/png" href="assets/brand/mach1-mark.png">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="navigation.css">
+  <script src="navigation.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="nav">
-    <div class="wrap nav-in">
-      <a class="brand" href="index.html" aria-label="Mach 1 home">
-        <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="28">
-      </a>
-      <div class="nav-cta">
-        <a class="btn solid has-plane" href="app.html"><svg class="plane" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Try Mach 1</a>
-      </div>
+  <header class="site-header" id="top" data-site-page="sales">
+  <div class="wrap site-inner">
+    <a class="site-brand" href="index.html" aria-label="Mach 1 home"><img src="assets/brand/mach1-logo.png" alt="Mach 1" width="112" height="32"></a>
+    <button class="site-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" hidden><span class="site-toggle-label">Menu</span><span class="site-toggle-icon" aria-hidden="true"><i></i><i></i></span></button>
+    <div class="site-navigation" id="site-navigation">
+      <nav class="site-links" aria-label="Primary">
+        <details class="site-product">
+          <summary class="site-link"><span>Product</span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="site-dropdown">
+            <a class="site-product-intro" href="product.html"><span class="site-eyebrow">Meet Mach 1</span><strong>Your knowledge. <br>Your tools. <br>Working together.</strong><span class="site-intro-link">Explore the product <span aria-hidden="true">↗</span></span></a>
+            <div class="site-shortcuts"><p class="site-eyebrow">Built for your team</p><div><a class="site-shortcut" href="product.html#tower"><span>Tower</span><small>Your assistant, always alongside you</small></a><a class="site-shortcut" href="product.html#context"><span>Shared knowledge</span><small>The right context for every team</small></a><a class="site-shortcut" href="product.html#workflows"><span>Workflow control</span><small>Automation with clear boundaries</small></a><a class="site-shortcut" href="product.html#chat"><span>Website chat</span><small>Bring workflows to your customers</small></a></div><a class="site-all-features" href="product.html#capabilities">All product capabilities <span aria-hidden="true">→</span></a></div>
+          </div>
+        </details>
+        <a class="site-link" data-site-section="integrations" href="index.html#integrations"><span>Integrations</span><small>Connect the tools you already use</small></a><a class="site-link" data-site-section="customers" href="index.html#customers"><span>Customers</span><small>Hear from the teams using Mach 1</small></a><a class="site-link" data-site-section="updates" href="updates.html"><span>Updates</span><small>See what’s new in the product</small></a>
+      </nav>
+      <div class="site-actions"><a class="site-sales" href="sales.html" aria-current="page">Contact sales</a><a class="site-demo" href="app.html">Try the demo <span aria-hidden="true">↗</span></a></div>
     </div>
-  </header>
+  </div>
+</header>
 
   <main id="main" tabindex="-1">
     <section class="sales">
@@ -53,12 +64,7 @@
     </section>
   </main>
 
-  <footer class="sales-foot">
-    <div class="wrap">
-      <p><a class="textlink" href="product.html">Explore the product</a> · <a class="textlink" href="updates.html">Product updates</a></p>
-      <p>© 2026 Mach 1 AI, Inc. All rights reserved.</p>
-    </div>
-  </footer>
+  <footer class="site-footer"><div class="wrap"><div class="foot-grid"><div class="foot-brand"><a href="index.html" aria-label="Mach 1 home"><img class="brand-logo" src="assets/brand/mach1-logo-white.png" alt="Mach 1" height="28"></a><p>AI agents for support and sales.<br>Your team stays in control.</p></div><nav aria-label="Product"><h2 class="foot-h">Product</h2><a href="product.html">Product overview</a><a href="product.html#capabilities">Capabilities</a><a href="index.html#integrations">Integrations</a><a href="app.html">Try the demo</a></nav><nav aria-label="Discover"><h2 class="foot-h">Discover</h2><a href="index.html#customers">Customer stories</a><a href="updates.html">Product updates</a><a href="index.html#faq">Frequently asked questions</a></nav><nav aria-label="Connect"><h2 class="foot-h">Connect</h2><a href="sales.html">Contact sales</a><a href="mailto:hello@mach1ai.com">Get in touch</a></nav></div><div class="bottom-bar"><p>© 2026 Mach 1 AI, Inc.</p><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div></div></footer>
 
   <script>
     (() => {

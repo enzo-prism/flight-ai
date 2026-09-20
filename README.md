@@ -26,7 +26,9 @@ Open `http://127.0.0.1:8080/`. Use `.html` paths locally. Vercel redirects those
 | `updates.html`, `updates/*.html` | Release index and full release-period articles | **No:** generated |
 | `content/releases.json` | Release content and source page references | Yes |
 | `scripts/build-product-pages.py` | Product copy, shared page templates, validation, generation | Yes |
-| `pages.css`, `pages.js` | Product/release styling, navigation, search and filters | Yes |
+| `pages.css`, `pages.js` | Product/release styling, shareable search and filter restoration | Yes |
+| `scripts/site_chrome.py` | Shared static header/footer for every public marketing page | Yes |
+| `navigation.css`, `navigation.js` | Responsive navigation, product disclosure, keyboard and anchor handling | Yes |
 | `app.html`, `product.css`, `product.js` | Simulated sign-in, onboarding, 24 workspace views | Yes |
 | `assets/` | Brand, customer media, connector icons, ASCII animation | Preserve provenance |
 | `vercel.json`, `.vercelignore` | Static hosting and authoring-file exclusions | Yes |
@@ -39,9 +41,11 @@ There are no application server endpoints or runtime package dependencies. The m
 python3 scripts/build-product-pages.py
 ```
 
-Commit both source and generated HTML. The generator validates all release content before writing, derives coverage dates from the records, and refuses duplicate/unsafe slugs or unlisted release HTML. It does not delete retired pages automatically.
+Commit both source and generated HTML. The same command also refreshes shared headers and footers in `index.html` and `sales.html`; their main content remains hand-authored. Edit `scripts/site_chrome.py` for navigation, not individual page headers. The generator validates all release content before writing, derives coverage dates from the records, and refuses duplicate/unsafe slugs or unlisted release HTML. It does not delete retired pages automatically.
 
 All new-page content and navigation work without JavaScript, including a mobile menu fallback. Search and category filtering are progressive enhancements. Search covers release summaries, highlights, customer benefits, fixes, and foundation notes.
+
+The product menu uses native disclosure. All marketing pages share Product, Integrations, Customers, Updates, Contact sales, and Try the demo. Mobile menus support Escape, outside click, keyboard focus, compact-height scrolling, and breakpoint reset. Release filters are shareable through `q`/`type` URL parameters, with optional session storage preserving breadcrumb return context. See [navigation behavior](docs/navigation.md).
 
 Read [the editing guide](docs/content-maintenance.md) and [the PDF source map](docs/product-content-sources.md) before adding claims or releases.
 
@@ -53,6 +57,7 @@ Python 3.10+ and Node.js 22+ are sufficient for the committed checks:
 python3 scripts/build-product-pages.py --check
 python3 -m unittest discover -s tests -v
 python3 scripts/verify-site.py
+node --check navigation.js
 node --check pages.js
 node --check app.js
 node --check product.js

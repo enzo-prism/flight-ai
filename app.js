@@ -8,31 +8,6 @@
     document.querySelectorAll('lord-icon[trigger="loop"]').forEach((el) => el.setAttribute('trigger', 'hover'));
   }
 
-  // Sticky nav hairline on scroll
-  const nav = document.querySelector('.nav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // Mobile menu
-  const menuBtn = document.querySelector('.menu-btn');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const setMenu = (open) => {
-    nav.classList.toggle('open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-    mobileMenu.hidden = !open;
-  };
-  menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
-  mobileMenu.addEventListener('click', (e) => {
-    if (e.target.closest('a')) setMenu(false);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav.classList.contains('open')) {
-      setMenu(false);
-      menuBtn.focus();
-    }
-  });
-
   // Reveal on scroll
   const revealEls = document.querySelectorAll('.reveal');
   if (reduceMotion || !('IntersectionObserver' in window)) {

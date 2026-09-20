@@ -6,8 +6,11 @@ import json
 import argparse
 from datetime import date
 import re
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from site_chrome import header, footer
 CATEGORIES = ('Capabilities', 'Experience', 'Reliability')
 
 
@@ -73,20 +76,16 @@ def emit(path, content):
 
 
 def shell(title, description, body, active='product', prefix=''):
-    nav = [('product.html','Product','product'), ('index.html#customers','Customers','customers'), ('updates.html','Updates','updates')]
-    links = ''.join(f'<a href="{prefix}{url}"'+(' aria-current="page"' if key==active else '')+f'>{label}</a>' for url,label,key in nav)
-    mobile = links.replace('<a ', '<a class="mlink" ')
     return f'''<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)} — Mach 1</title><meta name="description" content="{e(description,quote=True)}">
 <meta property="og:title" content="{e(title,quote=True)} — Mach 1"><meta property="og:description" content="{e(description,quote=True)}"><meta property="og:type" content="{'article' if prefix else 'website'}">
 <meta name="theme-color" content="#0B1B33"><link rel="icon" type="image/png" href="{prefix}assets/brand/mach1-mark.png">
-<link rel="stylesheet" href="{prefix}styles.css"><link rel="stylesheet" href="{prefix}pages.css"><script src="{prefix}pages.js" defer></script>
-<noscript><style>.editorial .menu-btn{{display:none!important}}@media(max-width:960px){{.editorial .nav{{position:static}}.editorial #mobileMenu[hidden]{{display:block!important;padding:8px 28px 20px;border-bottom:1px solid var(--line)}}}}</style></noscript></head>
+<link rel="stylesheet" href="{prefix}styles.css"><link rel="stylesheet" href="{prefix}pages.css"><link rel="stylesheet" href="{prefix}navigation.css"><script src="{prefix}navigation.js" defer></script><script src="{prefix}pages.js" defer></script></head>
 <body class="editorial"><a class="skip" href="#main">Skip to content</a>
-<header class="nav" id="top"><div class="wrap nav-in"><a class="brand" href="{prefix}index.html" aria-label="Mach 1 home"><img class="brand-logo" src="{prefix}assets/brand/mach1-logo.png" alt="Mach 1" height="28"></a><nav class="links" aria-label="Primary">{links}</nav><div class="nav-cta"><a class="btn outline" href="{prefix}sales.html">Contact Sales</a><a class="btn solid" href="{prefix}app.html">Try the demo <span aria-hidden="true">↗</span></a></div><button class="menu-btn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Menu"><span></span><span></span><span></span></button></div><div class="mobile-menu" id="mobileMenu" hidden>{mobile}<div class="mcta"><a class="btn solid" href="{prefix}app.html">Try the demo</a><a class="btn outline" href="{prefix}sales.html">Contact Sales</a></div></div></header>
+{header(active, prefix)}
 <main id="main" tabindex="-1">{body}</main>
-<footer><div class="wrap"><div class="foot-grid"><div class="foot-brand"><a href="{prefix}index.html"><img class="brand-logo" src="{prefix}assets/brand/mach1-logo-white.png" alt="Mach 1 home" height="28"></a><p>AI agents for support and sales.<br>Your team stays in control.</p></div><nav aria-label="Product"><h2 class="foot-h">Product</h2><a href="{prefix}product.html">Overview</a><a href="{prefix}product.html#capabilities">Capabilities</a><a href="{prefix}app.html">Interactive demo</a></nav><nav aria-label="Explore"><h2 class="foot-h">Explore</h2><a href="{prefix}updates.html">Product updates</a><a href="{prefix}index.html#customers">Customer stories</a><a href="{prefix}index.html#integrations">Integrations</a></nav><nav aria-label="Connect"><h2 class="foot-h">Connect</h2><a href="{prefix}sales.html">Contact sales</a><a href="mailto:hello@mach1ai.com">Get in touch</a></nav></div><div class="bottom-bar"><p>© 2026 Mach 1 AI, Inc.</p><a href="#top">Back to top ↑</a></div></div></footer></body></html>'''
+{footer(prefix)}</body></html>'''
 
 def release_link(r,prefix=''):
     return prefix+'updates/'+r['slug']+'.html'
@@ -115,7 +114,7 @@ product = f'''
 emit(ROOT/'product.html', shell('AI agents with context and control', 'Explore Tower, shared knowledge, workflow controls, website chat, integration diagnostics, and AI usage visibility in Mach 1.', product))
 
 rows = ''.join(f'''<article class="release-row" data-category="{e(r['category'])}" data-search="{e(search_text(r),quote=True)}"><div class="release-date"><span class="eyebrow">Release period</span><p>{e(r['period'])}</p><span class="release-tag">{e(r['category'])}</span></div><div><h2><a href="{release_link(r)}">{e(r['title'])}</a></h2><p>{e(r['summary'])}</p><p class="release-benefit">{e(r['benefit'])}</p><a class="textlink" href="{release_link(r)}">Read the release notes →</a></div></article>''' for r in RELEASES)
-updates=f'''<section class="updates-hero"><div class="wrap"><p class="eyebrow">Mach 1 / Product updates</p><h1>Better with<br>every release.</h1><p class="lede">New capabilities, thoughtful refinements, and the fixes that make everyday work feel easier.</p><p class="coverage">{coverage_label(RELEASES)} · {len(RELEASES)} release summaries</p></div></section><section class="release-index"><div class="wrap"><div class="release-tools" hidden><div class="release-filters" role="group" aria-label="Filter releases">{''.join(f'<button type="button" data-filter="{v}" aria-pressed="{str(v=="All").lower()}">{v}</button>' for v in ['All','Capabilities','Experience','Reliability'])}</div><label class="release-search">Search updates<input type="search" id="releaseSearch" placeholder="Tower, chat, costs…"></label></div><p class="result-count" role="status" hidden></p><div id="releaseList">{rows}</div><p id="noResults" hidden>No updates match your search. Try another term or choose All.</p></div></section><section class="page-cta"><div class="wrap"><h2>See how it all comes together.</h2><p>Explore the capabilities behind the updates.</p><a class="btn light lg" href="product.html">Explore the product →</a></div></section>'''
+updates=f'''<section class="updates-hero"><div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="product.html">Product</a></li><li><span aria-current="page">Updates</span></li></ol></nav><h1>Better with<br>every release.</h1><p class="lede">New capabilities, thoughtful refinements, and the fixes that make everyday work feel easier.</p><p class="coverage">{coverage_label(RELEASES)} · {len(RELEASES)} release summaries</p></div></section><section class="release-index"><div class="wrap"><div class="release-tools" hidden><div class="release-filters" role="group" aria-label="Filter releases">{''.join(f'<button type="button" data-filter="{v}" aria-pressed="{str(v=="All").lower()}">{v}</button>' for v in ['All','Capabilities','Experience','Reliability'])}</div><label class="release-search">Search updates<input type="search" id="releaseSearch" placeholder="Tower, chat, costs…"></label></div><p class="result-count" role="status" hidden></p><div id="releaseList">{rows}</div><p id="noResults" hidden>No updates match your search. Try another term or choose All.</p></div></section><section class="page-cta"><div class="wrap"><h2>See how it all comes together.</h2><p>Explore the capabilities behind the updates.</p><a class="btn light lg" href="product.html">Explore the product →</a></div></section>'''
 emit(ROOT/'updates.html', shell('Product updates', 'Explore Mach 1 release notes and learn how each update improves customer conversations, workflow control, and everyday operations.',updates,'updates'))
 for i,r in enumerate(RELEASES):
     highlights=''.join(f'''<section class="release-detail-section"><p class="eyebrow">Improvement {n+1:02}</p><h2>{e(h['title'])}</h2><p>{e(h['description'])}</p><div class="outcome"><strong>What this means for your team</strong><p>{e(h['benefit'])}</p></div></section>''' for n,h in enumerate(r['highlights']))
@@ -126,8 +125,18 @@ for i,r in enumerate(RELEASES):
     adjacent=''
     if i+1<len(RELEASES): adjacent+=f'<a href="{RELEASES[i+1]["slug"]}.html"><span>← Previous release period</span><strong>{e(RELEASES[i+1]["title"])}</strong></a>'
     if i>0: adjacent+=f'<a href="{RELEASES[i-1]["slug"]}.html"><span>Next release period →</span><strong>{e(RELEASES[i-1]["title"])}</strong></a>'
-    article=f'''<article><header class="release-hero"><div class="wrap"><a class="back-link" href="../updates.html">← All product updates</a><p class="eyebrow">{e(r['category'])} / Release notes</p><h1>{e(r['title'])}</h1><p class="lede">{e(r['summary'])}</p><p class="period">Release period: {e(r['period'])}</p></div></header><div class="wrap release-layout"><aside class="release-aside"><p class="eyebrow">The customer benefit</p><p>{e(r['benefit'])}</p><a class="textlink" href="../product.html">Explore Mach 1 →</a></aside><div class="release-body">{highlights}{extras}<div class="release-end"><h2>Put the improvements in context.</h2><p>See how Mach 1 brings knowledge, tools, and workflows together for your team.</p><a class="btn solid" href="../product.html">Explore the product →</a></div><nav class="adjacent-releases" aria-label="Adjacent releases">{adjacent}</nav></div></div></article>'''
-    emit(ROOT/'updates'/f'{r["slug"]}.html', shell(r['title'],r['summary'],article,'updates','../'))
+    article=f'''<article><header class="release-hero"><div class="wrap"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../product.html">Product</a></li><li><a href="../updates.html" data-updates-return>Updates</a></li><li><span aria-current="page">Release notes</span></li></ol></nav><p class="eyebrow">{e(r['category'])} / Release notes</p><h1>{e(r['title'])}</h1><p class="lede">{e(r['summary'])}</p><p class="period">Release period: {e(r['period'])}</p></div></header><div class="wrap release-layout"><aside class="release-aside"><p class="eyebrow">The customer benefit</p><p>{e(r['benefit'])}</p><a class="textlink" href="../product.html">Explore Mach 1 →</a></aside><div class="release-body">{highlights}{extras}<div class="release-end"><h2>Put the improvements in context.</h2><p>See how Mach 1 brings knowledge, tools, and workflows together for your team.</p><a class="btn solid" href="../product.html">Explore the product →</a></div><nav class="adjacent-releases" aria-label="Adjacent releases">{adjacent}</nav></div></div></article>'''
+    emit(ROOT/'updates'/f'{r["slug"]}.html', shell(r['title'],r['summary'],article,'release','../'))
+# Keep hand-authored page content while generating the same navigation everywhere.
+for filename, current in [('index.html', 'home'), ('sales.html', 'sales')]:
+    path = ROOT / filename
+    page = path.read_text()
+    page, header_count = re.subn(r'<header class="(?:nav|site-header)"[^>]*>.*?</header>', lambda _: header(current), page, count=1, flags=re.S)
+    page, footer_count = re.subn(r'<footer(?: class="[^"]*")?>.*?</footer>', lambda _: footer(), page, count=1, flags=re.S)
+    if header_count != 1 or footer_count != 1:
+        raise ValueError(f'Expected one shared header and footer in {filename}')
+    emit(path, page)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true', help='Check committed pages without writing')

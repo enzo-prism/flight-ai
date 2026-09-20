@@ -460,8 +460,14 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
   html { scroll-behavior: auto; }
   .btn .spin { animation: none; }
   .toast { transition: none; }
-  .conn-card, .add-pill, .status-pill, .chip, .clogo.loading, .sync-dot, .typing span, .side { animation: none !important; transition: none !important; transform: none !important; }
+  .side { animation: none !important; transition: none !important; }
+  .conn-card, .add-pill, .status-pill, .chip, .clogo.loading, .sync-dot, .typing span { animation: none !important; transition: none !important; transform: none !important; }
   .icon-btn, .avatar, .tower-link, .tower-link svg, .topbar .btn,
   .rail-tip, #sideOpen::after { transition: none !important; }
   .clogo.loading { background: var(--muted-bg); }
 }
+
+/* Leave the demo without clearing browser-local progress. */
+.demo-exit { display:inline-flex; align-items:center; flex:none; min-height:36px; gap:4px; padding:5px 8px; border-radius:6px; color:var(--muted); font-size:.75rem; text-decoration:none; }
+.demo-exit:hover { color:var(--foreground); background:var(--muted-bg); }
+@media(max-width:600px) { .demo-exit span:last-child { display:none; } .demo-exit { min-width:32px; justify-content:center; padding:4px; } }

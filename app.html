@@ -16,12 +16,12 @@
   <!-- ============ SIGN IN ============ -->
   <main id="main" class="view" data-view="signin" tabindex="-1" hidden>
     <div class="auth-wrap">
-      <span class="brand">
+      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
         <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </span>
+      </a>
       <div class="auth-card">
         <h1>Welcome aboard.</h1>
-        <p class="lede-sm">Sign in to launch your Mach 1 pilot.</p>
+        <p class="lede-sm">Explore the interactive Mach 1 demo. Sign-in and workspace actions are simulated.</p>
         <p class="email-chip" id="emailChip" hidden>Signed up as <strong id="emailChipAddr"></strong></p>
         <button class="btn google" id="googleBtn" type="button">
           <img src="assets/connectors/google.svg" alt="" width="18" height="18" aria-hidden="true">
@@ -30,16 +30,16 @@
         <div class="divider" aria-hidden="true"><span>or</span></div>
         <button class="btn outline wide" id="ssoBtn" type="button">Continue with SSO</button>
       </div>
-      <p class="micro center"><a class="textlink" href="index.html">← Back to site</a></p>
+      <p class="micro center"><a class="textlink" href="product.html">← Back to product</a></p>
     </div>
   </main>
 
   <!-- ============ ONBOARDING 1: CONNECT ============ -->
   <main id="mainConnect" class="view" data-view="connect" tabindex="-1" hidden>
     <div class="ob-wrap">
-      <span class="brand">
+      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
         <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </span>
+      </a>
       <ol class="stepper" aria-label="Onboarding progress">
         <li class="now" aria-current="step"><span>1</span> Connect your context</li>
         <li><span>2</span> Choose agents</li>
@@ -59,9 +59,9 @@
   <!-- ============ ONBOARDING 2: AGENTS ============ -->
   <main id="mainAgents" class="view" data-view="agents" tabindex="-1" hidden>
     <div class="ob-wrap narrow">
-      <span class="brand">
+      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
         <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </span>
+      </a>
       <ol class="stepper" aria-label="Onboarding progress">
         <li class="done"><span>✓</span> Connect your context</li>
         <li class="now" aria-current="step"><span>2</span> Choose agents</li>
@@ -130,6 +130,7 @@
     <div class="rail-tip" id="railTip" role="tooltip" hidden></div>
     <div class="main-col">
       <header class="topbar">
+        <a class="demo-exit" href="product.html" aria-label="Back to product"><span aria-hidden="true">←</span><span> Website</span></a>
         <button class="icon-btn" id="sideOpen" type="button" aria-label="Open navigation"></button>
         <p class="crumb"><strong id="crumbTitle">Home</strong> <span class="ws-pill" id="wsPill">tracevision</span></p>
         <a class="tower-link" href="#/app/tower" data-tab="tower" aria-label="Tower"><span id="towerIcon" aria-hidden="true"></span> <span class="tower-txt">Tower</span></a>
