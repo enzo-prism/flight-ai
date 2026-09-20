@@ -1,219 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mach 1 — Sign in</title>
-  <meta name="description" content="Sign in to Mach 1 and launch your support and sales pilot.">
-  <meta name="theme-color" content="#18181B">
-  <link rel="icon" href="assets/brand/mach1-mark.png">
-  <link rel="stylesheet" href="product.css">
-  <script src="https://cdn.lordicon.com/lordicon.js" defer></script>
-</head>
-<body>
-  <a class="skip" href="#main">Skip to content</a>
-
-  <!-- ============ SIGN IN ============ -->
-  <main id="main" class="view" data-view="signin" tabindex="-1" hidden>
-    <div class="auth-wrap">
-      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
-        <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </a>
-      <div class="auth-card">
-        <h1>Welcome aboard.</h1>
-        <p class="lede-sm">Explore the interactive Mach 1 demo. Sign-in and workspace actions are simulated.</p>
-        <p class="email-chip" id="emailChip" hidden>Signed up as <strong id="emailChipAddr"></strong></p>
-        <button class="btn google" id="googleBtn" type="button">
-          <img src="assets/connectors/google.svg" alt="" width="18" height="18" aria-hidden="true">
-          <span id="googleLabel">Continue with Google</span>
-        </button>
-        <div class="divider" aria-hidden="true"><span>or</span></div>
-        <button class="btn outline wide" id="ssoBtn" type="button">Continue with SSO</button>
-      </div>
-      <p class="micro center"><a class="textlink" href="product.html">← Back to product</a></p>
-    </div>
-  </main>
-
-  <!-- ============ ONBOARDING 1: CONNECT ============ -->
-  <main id="mainConnect" class="view" data-view="connect" tabindex="-1" hidden>
-    <div class="ob-wrap">
-      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
-        <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </a>
-      <ol class="stepper" aria-label="Onboarding progress">
-        <li class="now" aria-current="step"><span>1</span> Connect your context</li>
-        <li><span>2</span> Choose agents</li>
-      </ol>
-      <h1>Connect your context.</h1>
-      <p class="lede-sm">Mach 1 grounds every answer in your stack. Add at least one — you can change this later.</p>
-      <div class="grid" id="obGrid" role="group" aria-label="Available integrations"></div>
-      <p class="micro">Your control tower stays the same — Mach 1 just runs it faster.</p>
-      <div class="ob-cta">
-        <button class="btn solid" id="obContinue" type="button" disabled aria-describedby="obContinueHint">Continue <span aria-hidden="true">→</span></button>
-        <button class="btn danger-ghost" id="obSkip" type="button">Skip for now <span aria-hidden="true">→</span></button>
-      </div>
-      <p class="sr-only" id="obContinueHint">Add at least one integration to continue.</p>
-    </div>
-  </main>
-
-  <!-- ============ ONBOARDING 2: AGENTS ============ -->
-  <main id="mainAgents" class="view" data-view="agents" tabindex="-1" hidden>
-    <div class="ob-wrap narrow">
-      <a class="brand" href="product.html" aria-label="Back to the Mach 1 product">
-        <img class="brand-logo" src="assets/brand/mach1-logo.png" alt="Mach 1" height="30">
-      </a>
-      <ol class="stepper" aria-label="Onboarding progress">
-        <li class="done"><span>✓</span> Connect your context</li>
-        <li class="now" aria-current="step"><span>2</span> Choose agents</li>
-      </ol>
-      <h1>Choose your agents.</h1>
-      <p class="lede-sm">Start supervised in copilot mode. Switch to autopilot when your crew trusts the flight path.</p>
-      <div class="agent-pick">
-        <div class="pick-card">
-          <lord-icon src="https://cdn.lordicon.com/lemrzdkt.json" trigger="hover"
-            colors="primary:#18181B,secondary:#71717A" style="width:40px;height:40px" aria-hidden="true"></lord-icon>
-          <div>
-            <h2>Support Agent</h2>
-            <p class="micro">Takeoff for every ticket. Resolves in your voice; escalates cleanly.</p>
-          </div>
-          <button class="switch" id="obSupport" role="switch" aria-checked="true" aria-label="Support Agent" type="button"><span></span></button>
-        </div>
-        <div class="pick-card">
-          <lord-icon src="https://cdn.lordicon.com/lagziwcr.json" trigger="hover"
-            colors="primary:#18181B,secondary:#71717A" style="width:40px;height:40px" aria-hidden="true"></lord-icon>
-          <div>
-            <h2>Sales Agent</h2>
-            <p class="micro">Pipeline that flies itself. Qualifies, books, logs to CRM.</p>
-          </div>
-          <button class="switch" id="obSales" role="switch" aria-checked="false" aria-label="Sales Agent" type="button"><span></span></button>
-        </div>
-      </div>
-      <fieldset class="mode-pick">
-        <legend>Starting mode</legend>
-        <label><input type="radio" name="obMode" value="copilot" checked> <strong>Copilot</strong> — AI drafts, crew approves.</label>
-        <label><input type="radio" name="obMode" value="autopilot"> <strong>Autopilot</strong> — AI acts within guardrails.</label>
-      </fieldset>
-      <p class="micro">Support starts on in Copilot; Sales stays off until you enable it.</p>
-      <div class="ob-cta">
-        <button class="btn outline" id="obBack" type="button">← Back</button>
-        <button class="btn solid" id="obLaunch" type="button">Launch workspace <span aria-hidden="true">→</span></button>
-        <button class="btn danger-ghost" id="obSkip2" type="button">Skip for now <span aria-hidden="true">→</span></button>
-      </div>
-    </div>
-  </main>
-
-  <!-- ============ WORKSPACE ============ -->
-  <div id="viewApp" class="view" data-view="app" hidden>
-    <div class="side-backdrop" id="sideBackdrop" hidden></div>
-    <aside class="side" id="sideNav" aria-label="Workspace">
-      <div class="side-head">
-        <span class="logo-tile" aria-hidden="true">
-          <img src="assets/brand/mach1-mark-white.png" alt="" width="18" height="18">
-        </span>
-        <span class="side-id"><strong>Mach 1</strong><small id="wsId">tracevision</small></span>
-        <button class="icon-btn" id="sideCollapse" type="button" aria-label="Close navigation"></button>
-      </div>
-      <nav class="side-nav" id="sideNavList"></nav>
-      <div class="side-foot">
-        <a class="btn solid wide small" href="#/app/agent-usage" data-tab="agent-usage">Upgrade</a>
-        <div class="user-row">
-          <span class="avatar sm" id="sideAvatar">AR</span>
-          <span class="user-id"><strong id="sideName">Alex Rivera</strong><small id="sideEmail">pilot@mach1ai.com</small></span>
-          <button class="icon-btn" id="sideMenuBtn" type="button" aria-label="Account menu" aria-haspopup="menu" aria-expanded="false">⋮</button>
-        </div>
-        <div class="avatar-menu side-menu" id="sideMenu" role="menu" hidden>
-          <button class="menu-link" role="menuitem" id="signOutBtn2" type="button">Sign out</button>
-          <button class="menu-link" role="menuitem" id="resetDemo2" type="button">Reset demo</button>
-        </div>
-      </div>
-    </aside>
-    <div class="rail-tip" id="railTip" role="tooltip" hidden></div>
-    <div class="main-col">
-      <header class="topbar">
-        <a class="demo-exit" href="product.html" aria-label="Back to product"><span aria-hidden="true">←</span><span> Website</span></a>
-        <button class="icon-btn" id="sideOpen" type="button" aria-label="Open navigation"></button>
-        <p class="crumb"><strong id="crumbTitle">Home</strong> <span class="ws-pill" id="wsPill">tracevision</span></p>
-        <a class="tower-link" href="#/app/tower" data-tab="tower" aria-label="Tower"><span id="towerIcon" aria-hidden="true"></span> <span class="tower-txt">Tower</span></a>
-        <a class="btn solid small top-upgrade" href="#/app/agent-usage" data-tab="agent-usage">Upgrade</a>
-        <div class="avatar-wrap">
-          <button class="avatar" id="avatarBtn" aria-haspopup="menu" aria-expanded="false" type="button">AR</button>
-          <div class="avatar-menu" id="avatarMenu" role="menu" hidden>
-            <p class="micro"><strong id="menuName">Alex Rivera</strong><br><span id="menuEmail">pilot@mach1ai.com</span></p>
-            <a class="menu-link" role="menuitem" href="#/app/agent-usage" data-tab="agent-usage">Billing &amp; plans</a>
-            <button class="menu-link" role="menuitem" id="signOutBtn" type="button">Sign out</button>
-            <button class="menu-link" role="menuitem" id="resetDemo" type="button">Reset demo</button>
-          </div>
-        </div>
-      </header>
-      <main class="content" id="mainApp" tabindex="-1">
-        <div id="tabBody"></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Explore the Mach 1 concept preview. Find gaps in fictional customer conversations, inspect the evidence, and move work forward."
+    />
+    <meta name="robots" content="noindex" />
+    <title>Priorities · Mach 1 preview</title>
+    <link rel="icon" href="assets/brand/mach1-logo.png" />
+    <link rel="stylesheet" href="product.css" />
+    <script type="module" src="product.js"></script>
+  </head>
+  <body class="preview">
+    <a class="skip-link" href="#main-content">Skip to workspace</a>
+    <div id="app">
+      <main id="main-content" class="empty-state">
+        <h1>Mach 1 preview</h1>
+        <p>Know what needs attention. See why. Move it forward.</p>
+        <noscript
+          ><p>
+            This interactive preview needs JavaScript.
+            <a href="product.html">Explore the product</a> without JavaScript.
+          </p></noscript
+        >
       </main>
-      <footer class="app-foot">
-        <p class="micro">Mach 1 demo · All data is fictional and stays in your browser · Icons by <a class="textlink" href="https://lucide.dev" target="_blank" rel="noreferrer">Lucide</a> (ISC) · <a class="textlink" href="index.html">Back to site</a></p>
-      </footer>
     </div>
-  </div>
-
-  <!-- ============ MODALS ============ -->
-  <div class="modal" id="oauthModal" hidden>
-    <div class="modal-card" id="oauthCard" role="dialog" aria-modal="true" aria-labelledby="oauthTitle">
-      <div id="oauthAsk">
-        <div class="oauth-head"><span class="clogo big" id="oauthLogo"></span><h2 id="oauthTitle">Connect</h2></div>
-        <p class="micro" id="oauthDesc"></p>
-        <ul class="perms" id="oauthPerms"></ul>
-        <div class="modal-cta">
-          <button class="btn outline" id="oauthCancel" type="button">Cancel</button>
-          <button class="btn solid" id="oauthAllow" type="button">Allow access</button>
-        </div>
-      </div>
-      <div id="oauthDone" hidden>
-        <div class="oauth-head"><span class="clogo big" id="oauthLogo2"></span><h2 id="oauthDoneTitle">Connected</h2></div>
-        <p class="micro" id="oauthDoneDesc"></p>
-        <div class="modal-cta"><button class="btn solid" id="oauthClose" type="button">Done</button></div>
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="ssoModal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="ssoTitle">
-      <h2 id="ssoTitle">SSO is an Enterprise feature.</h2>
-      <p>Google sign-in works for this pilot. SSO/SAML with Okta and Entra, plus custom retention, ships on Enterprise.</p>
-      <div class="modal-cta">
-        <button class="btn danger-ghost" id="ssoCancel" type="button">Cancel</button>
-        <button class="btn outline" id="ssoGoogle" type="button">Continue with Google</button>
-        <a class="btn solid" href="mailto:sales@mach1ai.com?subject=Mach%201%20Enterprise%20SSO">Talk to sales</a>
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="checkoutModal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="coTitle">
-      <div id="coAsk">
-        <h2 id="coTitle">Upgrade to Growth.</h2>
-        <p><strong>$249/mo</strong> — 1,000 resolutions + 50 meetings, unlimited connections, autopilot, audit log. Demo checkout: no card, no charge.</p>
-        <div class="modal-cta">
-          <button class="btn outline" id="coCancel" type="button">Cancel</button>
-          <button class="btn solid" id="coConfirm" type="button">Confirm upgrade</button>
-        </div>
-      </div>
-      <div id="coDone" hidden>
-        <h2>You’re on Growth.</h2>
-        <p>Autopilot, unlimited connections, and the audit log are unlocked. Your crew can fly higher.</p>
-        <div class="modal-cta"><button class="btn solid" id="coClose" type="button">Back to workspace</button></div>
-      </div>
-    </div>
-  </div>
-  <div class="modal" id="formModal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="formTitle">
-      <h2 id="formTitle">Add item</h2>
-      <div id="formFields"></div>
-      <p class="micro form-err" id="formErr" hidden></p>
-      <div class="modal-cta">
-        <button class="btn outline" id="formCancel" type="button">Cancel</button>
-        <button class="btn solid" id="formOk" type="button">Save</button>
-      </div>
-    </div>
-  </div>
-  <div id="toasts" aria-live="polite"></div>
-  <script src="assets/icons.js"></script>
-  <script src="product.js"></script>
-</body>
+    <dialog id="modal" class="modal" aria-labelledby="modal-title"></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <div
+      id="announcement"
+      class="sr-only"
+      role="status"
+      aria-live="polite"
+    ></div>
+  </body>
 </html>

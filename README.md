@@ -29,7 +29,8 @@ Open `http://127.0.0.1:8080/`. Use `.html` paths locally. Vercel redirects those
 | `pages.css`, `pages.js` | Product/release styling, shareable search and filter restoration | Yes |
 | `scripts/site_chrome.py` | Shared static header/footer for every public marketing page | Yes |
 | `navigation.css`, `navigation.js` | Responsive navigation, product disclosure, keyboard and anchor handling | Yes |
-| `app.html`, `product.css`, `product.js` | Simulated sign-in, onboarding, 24 workspace views | Yes |
+| `app.html`, `product.css`, `product.js` | Focused Support/Sales concept preview: Priorities, Overview, Connections | Yes |
+| `demo/*.mjs` | Fictional fixtures, state, routing, selectors and precomputed analysis boundary | Yes |
 | `assets/` | Brand, customer media, connector icons, ASCII animation | Preserve provenance |
 | `vercel.json`, `.vercelignore` | Static hosting and authoring-file exclusions | Yes |
 
@@ -62,10 +63,28 @@ node --check pages.js
 node --check app.js
 node --check product.js
 node --check assets/icons.js
+node --test tests/demo-*.test.mjs
 git diff --check
 ```
 
 GitHub Actions runs these checks for main pushes and pull requests. They validate generated-content freshness, content boundaries, safe slugs and dates, search indexing, local links/assets/fragments, page headings, duplicate IDs, and JavaScript syntax. They do not replace browser checks or live deployment readback. See [the review](docs/product-release-review.md) for tested browser behavior and remaining limitations.
+
+### Browser verification
+
+The optional browser checks need Playwright and axe-core as development tools only. Install them in a scratch directory and use a running local server:
+
+```sh
+npm install --prefix work/demo-qa --no-audit --no-fund playwright@1.62.1 axe-core@4.13.0
+work/demo-qa/node_modules/.bin/playwright install chromium
+export PLAYWRIGHT_MODULE="$PWD/work/demo-qa/node_modules/playwright"
+export AXE_MODULE="$PWD/work/demo-qa/node_modules/axe-core/axe.min.js"
+export SITE_URL="http://127.0.0.1:8080"
+node tests/browser/core.cjs
+node tests/browser/edges.cjs
+node tests/browser/continuity.cjs
+```
+
+`CHROME_PATH` optionally selects an already installed Chrome executable. The suites use isolated browser contexts and fictional data only. Core exercises actions, copying, reloads, metrics, Tower, reset, and mobile Escape. Edges checks WCAG A/AA rules with axe, responsive layouts, history/scroll, malformed or blocked storage, and asset failures. Continuity checks focus and prior regression cases. Human comprehension and manual screen-reader testing remain separate checks.
 
 ## Deploy
 
@@ -75,7 +94,7 @@ Follow [the deployment runbook](docs/deployment.md). Verify the linked Vercel pr
 
 Product and release pages describe capabilities documented in the supplied Mach 1 Feature Updates PDF. This repository does **not** implement the production Mach 1 platform.
 
-The demo stores state in the visitor's browser. Google sign-in, AI responses, integrations, workflow execution, invitations, generated keys, usage, and checkout are simulated. Use fictional data only. The sales form prepares a mailto draft and explains that the visitor must send it themselves. There is no lead submission endpoint.
+The concept preview opens immediately into fictional customer conversations. It has no sign-in, model calls, live integrations, uploads, credentials, or Send action. Assignments, statuses, editable drafts, and activity remain browser-local; Tower stops at Awaiting approval. Its proposed capabilities are separate from the real product. See [the focused preview guide](docs/focused-preview.md) for architecture, counting rules, direct Support/Sales/Overview links, storage boundaries, and future pilot responsibilities. The sales form prepares a mailto draft and explains that the visitor must send it themselves. There is no lead submission endpoint.
 
 ## Assets and attribution
 

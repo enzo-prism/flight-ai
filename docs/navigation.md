@@ -4,13 +4,13 @@
 
 Every marketing page uses the same header and footer from `scripts/site_chrome.py`. The header offers a Product disclosure with an overview and direct feature shortcuts; Integrations and Customers link to the existing homepage sections; Updates leads to the release index. Contact sales and Try the demo remain available at every screen size. Footer labels describe their actual destinations; placeholders for nonexistent documentation, pricing, help, and security pages have been removed.
 
-The application demo retains its own workspace shell. Its sign-in and onboarding logos return to Product, and its workspace toolbar provides a persistent website exit. Leaving the demo does not sign out or erase local progress. Reduced-motion mode disables sidebar transitions without overriding the transform that keeps the closed mobile drawer offscreen.
+The focused demo has its own three-destination workspace shell: Priorities, Overview, and Connections. Support and Sales share components and routes. Its logo and website link return to Product without erasing local progress. No sign-in or onboarding is required. See [focused-preview.md](focused-preview.md) for deep links, mobile detail behavior, and state continuity.
 
 ## Rendering and maintenance
 
 `python3 scripts/build-product-pages.py` emits complete product/release pages and replaces shared header/footer regions in index.html and sales.html. Keep editing those pages' main content directly. Header/footer copies are checked by the existing `--check` command so changes cannot silently diverge.
 
-`navigation.css` is independent of the old marketing `.nav` styles and the application's topbar. `navigation.js` owns all shared behavior; homepage animation/media and release filtering stay in their separate scripts.
+`navigation.css` is independent of the old marketing `.nav` styles and the application's workspace shell. `navigation.js` owns all shared behavior; homepage animation/media and release filtering stay in their separate scripts.
 
 ## Interaction behavior
 
