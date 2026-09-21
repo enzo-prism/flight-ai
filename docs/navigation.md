@@ -32,3 +32,6 @@ Breadcrumbs connect Product → Updates → Release notes, alongside adjacent-re
 ## Verification checklist
 
 Check homepage, Product, Updates, Sales, and a nested release at desktop, 901/900px breakpoints, tablet, and 390/320px mobile widths. Exercise product disclosure, Escape/focus, same-page shortcuts, cross-page anchors, outside click, Tab exit, resize reset, compact landscape scrolling, and no-JavaScript navigation. Verify article → breadcrumb restores both search and category, and that a direct/shared query URL restores filters. Check the sample exit at narrow widths without clearing sample state. Verify Get Started reaches real authentication, sample links remain separate, connector callbacks return to setup, and browser history never bypasses authenticated API checks.
+
+
+September 20 preview revision: Get Started opens `/preview`, followed by sample tools, Sales/Support focus, and `/sample`. No authentication or connector authorization is needed for this design preview. `/app` retains the separate server-backed implementation; it is not the primary marketing entry.

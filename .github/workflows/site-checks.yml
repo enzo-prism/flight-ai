@@ -51,6 +51,8 @@ jobs:
             sleep 1
           done
           test "$ready" = 1
+          node tests/browser/marketing-design.cjs
+          node tests/browser/preview.cjs
           node tests/browser/product.cjs
           node tests/browser/core.cjs
           node tests/browser/edges.cjs

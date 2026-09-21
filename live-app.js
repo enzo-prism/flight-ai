@@ -780,11 +780,16 @@ if (callback.has("error")) {
   currentError = "Sign-in or authorization did not complete. Please try again.";
   history.replaceState(null, "", location.pathname + location.hash);
 }
-render();
-bootstrap().then(() => {
-  if (callback.has("error")) {
-    currentError =
-      "Sign-in or authorization did not complete. Please try again.";
-    render();
-  }
-});
+// Preserve shared links from the earlier sample hosted at /app.
+if (/^#\/(?:support|sales|app)(?:\/|$)/.test(location.hash)) {
+  location.replace(`sample.html${location.hash}`);
+} else {
+  render();
+  bootstrap().then(() => {
+    if (callback.has("error")) {
+      currentError =
+        "Sign-in or authorization did not complete. Please try again.";
+      render();
+    }
+  });
+}

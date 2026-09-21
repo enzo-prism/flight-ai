@@ -38,7 +38,9 @@ Without service configuration, the product displays unavailable services honestl
 | `app.html`, `live.css`, `live-app.js` | Real sign-in, connector onboarding, Sales/Support workspace | Yes |
 | `api/product.mjs`, `server/*.mjs` | Authenticated API, provider adapters, analysis, encryption | Yes |
 | `db/*.sql` | Tenant schema, RLS, atomic operations and scan locks | Version deliberately |
-| `sample.html`, `product.css`, `product.js`, `demo/*.mjs` | Separate fictional, browser-local concept preview | Yes |
+| `preview.html`, `preview.js`, `preview.css` | Guided tools and Sales/Support setup using sample preferences only | Yes |
+| `sample.html`, `product.css`, `product.js`, `sample-polish.css`, `demo/*.mjs` | Separate fictional, browser-local concept preview | Yes |
+| `customer-stories.css`, `updates-design.css` | Customer-story and release presentation | Yes |
 | `scripts/build-site.mjs` | Explicit public-asset allowlist | Yes |
 | `assets/` | Brand, customer media, connector icons | Preserve provenance |
 | `vercel.json`, `.vercelignore` | Build/deployment configuration | Yes |
@@ -53,7 +55,7 @@ python3 scripts/build-product-pages.py
 
 Commit source and generated HTML. This also updates the shared header/footer in `index.html` and `sales.html`; their main content remains hand-authored. Edit `scripts/site_chrome.py` rather than individual generated headers. The generator validates release records, dates, and slugs before writing.
 
-Marketing navigation and release reading work without JavaScript. Search and category filters are progressive enhancements with shareable `q`/`type` URLs. **Get Started** leads to the real product; the sample has a separate label and destination. See [navigation](docs/navigation.md), [content maintenance](docs/content-maintenance.md), and [PDF provenance](docs/product-content-sources.md).
+Marketing navigation and release reading work without JavaScript. Search and category filters are progressive enhancements with shareable `q`/`type` URLs. **Get Started** leads to the guided design preview at `/preview`; it hands off to the fictional workspace at `/sample`. The separate authenticated implementation remains at `/app` and still requires provider configuration. See [navigation](docs/navigation.md), [content maintenance](docs/content-maintenance.md), and [PDF provenance](docs/product-content-sources.md).
 
 ## Verify
 
@@ -84,6 +86,7 @@ work/browser-qa/node_modules/.bin/playwright install chromium
 export PLAYWRIGHT_MODULE="$PWD/work/browser-qa/node_modules/playwright"
 export AXE_MODULE="$PWD/work/browser-qa/node_modules/axe-core/axe.min.js"
 export SITE_URL="http://127.0.0.1:8092"
+node tests/browser/preview.cjs
 node tests/browser/product.cjs
 node tests/browser/core.cjs
 node tests/browser/edges.cjs

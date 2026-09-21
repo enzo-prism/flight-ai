@@ -140,7 +140,7 @@ function render(fromRoute = false) {
   app.innerHTML = `<div class="app-shell">
     <aside class="sidebar" aria-label="Workspace navigation">
       <a class="brand" href="product.html" aria-label="Mach 1 product website"><img src="assets/brand/mach1-logo.png" alt="Mach 1" width="98" height="28"></a>
-      <span class="sample-badge">Sample workspace</span>
+      <span class="sample-badge"><span class="sample-status-dot" aria-hidden="true"></span>Sample workspace</span>
       <div class="lens-switch" role="group" aria-label="Team lens">${["support", "sales"].map((lens) => `<button data-lens="${lens}" aria-pressed="${route.lens === lens}">${lens === "support" ? "Support" : "Sales"}</button>`).join("")}</div>
       <nav class="primary-nav" aria-label="Workspace">${[
         ["priorities", "Priorities", "list"],
@@ -152,10 +152,10 @@ function render(fromRoute = false) {
             `<a href="${href({ destination, conversationId: null, findingId: null, filters: defaultFilters() })}" ${route.destination === destination ? 'aria-current="page"' : ""}>${iconSvg(icon)}<span>${label}</span></a>`,
         )
         .join("")}</nav>
-      <div class="sidebar-bottom"><p class="sidebar-promise">Know what needs attention.<br>See why. Move it forward.</p><a class="text-link" href="product.html">Explore Mach 1 <span aria-hidden="true">↗</span></a>
-      <details class="demo-menu"><summary>Demo controls</summary><div><p>Fictional workspace. Changes stay in this browser.</p><button class="button quiet" data-action="about">About this preview</button><button class="button quiet" data-action="reset">Reset sample workspace</button></div></details></div>
+      <div class="sidebar-bottom"><p class="sidebar-promise">A little clarity.<br>A better next step.</p><a class="text-link replay-preview" href="preview.html">Replay the welcome experience →</a><a class="text-link" href="product.html">Explore Mach 1 <span aria-hidden="true">↗</span></a>
+      <details class="demo-menu"><summary>Preview options</summary><div><p>Fictional workspace. Changes stay in this browser.</p><button class="button quiet" data-action="about">About this preview</button><button class="button quiet" data-action="reset">Reset sample workspace</button></div></details></div>
     </aside>
-    <div class="workspace"><header class="workspace-bar"><div class="workspace-context"><span class="workspace-avatar" aria-hidden="true">M</span> Meridian <span class="muted">/ ${route.lens === "support" ? "Support" : "Sales"}</span></div><span class="sample-clock">Sample · ${esc(SAMPLE_DATE)}</span></header>
+    <div class="workspace"><header class="workspace-bar"><div class="workspace-context"><span class="workspace-avatar" aria-hidden="true">M</span> Meridian <span class="muted">/ ${route.lens === "support" ? "Support" : "Sales"}</span></div><span class="sample-clock" title="${esc(SAMPLE_DATE)}">September 18 <span aria-hidden="true">·</span> Sample day</span></header>
     ${store.notice ? `<p class="storage-notice" role="status">${esc(store.notice)}</p>` : ""}
     <main id="main-content" tabindex="-1">${route.destination === "priorities" ? priorities() : route.destination === "overview" ? overview() : connections()}</main></div></div>`;
   for (const d of document.querySelectorAll("details")) {
@@ -175,7 +175,7 @@ function render(fromRoute = false) {
     pane.setAttribute("aria-modal", "true");
     pane.append(toast);
     for (const el of document.querySelectorAll(
-      ".sidebar,.workspace-bar,.page-heading,.toolbar,.list-intro,.conversation-list,.storage-notice",
+      ".sidebar,.workspace-bar,.page-heading,.focus-brief,.toolbar,.list-intro,.conversation-list,.storage-notice",
     ))
       el.inert = true;
   }
@@ -216,13 +216,7 @@ function render(fromRoute = false) {
   lastRoute = structuredClone(route);
 }
 function iconSvg(name) {
-  const paths = {
-    list: '<path d="M8 6h12M8 12h12M8 18h12M3 6h.01M3 12h.01M3 18h.01"/>',
-    overview: '<path d="M4 20V10m8 10V4m8 16v-7"/>',
-    connections:
-      '<rect x="3" y="8" width="6" height="8" rx="2"/><rect x="15" y="8" width="6" height="8" rx="2"/><path d="M9 12h6M6 5v3m12 8v3"/>',
-  };
-  return `<svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${paths[name]}</svg>`;
+  return window.icon({ list: "list", overview: "chart-column", connections: "plug" }[name] || name, 19);
 }
 function defaultFilters() {
   return {
@@ -255,7 +249,8 @@ function priorities() {
   const narrowed = Object.entries(defaultFilters()).some(
     ([k, v]) => route.filters[k] !== v,
   );
-  return `<div class="page-heading"><p class="eyebrow">${route.lens === "support" ? "Customer support" : "Sales conversations"}</p><h1 tabindex="-1">What needs attention</h1><p>${route.lens === "support" ? "Find the unanswered request. Give the customer a clear next step." : "See where the conversation stalled. Help the buyer take the next step."}</p></div>
+  return `<div class="page-heading"><p class="eyebrow">${route.lens === "support" ? "Customer support" : "Sales conversations"}</p><h1 tabindex="-1">What needs attention</h1><p>${route.lens === "support" ? "Every conversation deserves a clear next step. Start with the ones that matter most." : "Keep good conversations moving. Find the question, commitment, or opportunity to follow up."}</p></div>
+  ${!narrowed && !validSelected && rows[0]?.primary ? focusBrief(rows) : ""}
   <div class="toolbar" role="search" aria-label="Filter conversations"><label class="search-field"><span class="sr-only">Search conversations</span><input id="conversation-search" type="search" placeholder="Search conversations" value="${esc(route.filters.q)}" autocomplete="off"></label>
   ${field("Status", "status", [
     ["active", "Open & in progress"],
@@ -290,8 +285,14 @@ function priorities() {
   <div class="list-intro"><span>${rows.length} ${rows.length === 1 ? "conversation" : "conversations"}${route.filters.period === "previous" ? " · Previous sample week" : ""}</span><span>Open a finding to see why it needs attention.</span></div>
   <div class="workspace-split ${validSelected ? "has-detail" : ""}"><div class="conversation-list" role="region" aria-label="Conversations">${rows.length ? rows.map((row) => rowHTML(row)).join("") : `<div class="empty-state"><h2>No conversations match</h2><p>${narrowed ? "Try a different filter or return to all open work." : "There are no open findings in this sample lens. View handled work or reset the sample to explore again."}</p><button class="button" data-action="clear-filters">Show open work</button><button class="button quiet" data-action="all-conversations">View all conversations</button></div>`}</div>${validSelected ? detail(validSelected) : ""}</div>`;
 }
+function focusBrief(rows) {
+  const first = rows[0];
+  const f = first.primary;
+  const overview = getOverview(route.lens, store.getState());
+  return `<section class="focus-brief" aria-label="Your next clear step"><div class="focus-copy"><span class="focus-eyebrow">${iconSvg("brain")} Your next clear step</span><h2>${esc(f.title)}</h2><p>${esc(f.summary)}</p><a class="button primary" href="${href({ conversationId: first.conversation.id, findingId: f.id })}">See the conversation <span aria-hidden="true">→</span></a></div><div class="focus-summary"><span class="focus-number">${overview.open}</span><span>conversations need attention</span><div class="focus-summary-rule"></div><p>${overview.reviewed} conversations reviewed.<br>One clear place to begin.</p></div></section>`;
+}
 function rowHTML({ conversation: c, findings, primary: f }) {
-  return `<button class="conversation-row" data-conversation="${esc(c.id)}" data-finding="${esc(f?.id || "")}" ${route.conversationId === c.id ? 'aria-current="true"' : ""}><span class="row-person">${esc(c.customer.name)} <span class="muted">· ${esc(c.customer.company)}</span></span><span class="row-title">${esc(f?.title || c.subject)}</span><span class="row-summary">${esc(f?.summary || "Reviewed sample conversation. No finding was identified.")}</span><span class="row-meta">${f ? `<span class="priority ${f.priority}">${esc(priorityLabel(f.priority))}</span><span class="owner">${esc(person(f.ownerId))}</span><span>${isActive(f) ? "Waiting " + esc(waitingLabel(f.waitingSince)) : esc(statusLabel(f.status))}</span>${f.status === "in-progress" ? '<span class="status">In progress</span>' : ""}${findings.length > 1 ? `<span class="row-count">${findings.length} findings</span>` : ""}` : "<span>No finding</span>"}</span><span class="row-arrow" aria-hidden="true">→</span></button>`;
+  return `<button class="conversation-row" data-conversation="${esc(c.id)}" data-finding="${esc(f?.id || "")}" ${route.conversationId === c.id ? 'aria-current="true"' : ""}><span class="row-avatar" aria-hidden="true">${esc(c.customer.name.split(" ").map((part) => part[0]).slice(0, 2).join(""))}</span><span class="row-person">${esc(c.customer.name)} <span class="muted">· ${esc(c.customer.company)}</span></span><span class="row-title">${esc(f?.title || c.subject)}</span><span class="row-summary">${esc(f?.summary || "Reviewed sample conversation. No finding was identified.")}</span><span class="row-meta">${f ? `<span class="priority ${f.priority}">${esc(priorityLabel(f.priority))}</span><span class="owner">${esc(person(f.ownerId))}</span><span>${isActive(f) ? "Waiting " + esc(waitingLabel(f.waitingSince)) : esc(statusLabel(f.status))}</span>${f.status === "in-progress" ? '<span class="status">In progress</span>' : ""}${findings.length > 1 ? `<span class="row-count">${findings.length} findings</span>` : ""}` : "<span>No finding</span>"}</span><span class="row-arrow" aria-hidden="true">→</span></button>`;
 }
 function detail(c) {
   const state = store.getState();
@@ -315,7 +316,7 @@ function detail(c) {
     <section class="detail-section"><h3>Why this needs attention</h3><p>${esc(f.reason)}</p>${f.priority === "review" ? '<p class="boundary-note">Review needed means the interpretation is uncertain. Check the evidence before acting.</p>' : ""}<details><summary>Why this is here</summary><p>Findings are ordered by priority, then overdue commitments, then longest waiting time. ${esc(priorityLabel(f.priority))} is the recorded severity for this example.${f.dueAt ? ` The recorded commitment was due ${esc(time(f.dueAt))}${new Date(f.dueAt) < new Date(SAMPLE_NOW) ? ", before the sample clock" : ""}.` : ""} Waiting is measured from ${esc(time(f.waitingSince))} to the frozen sample clock. No numerical AI score is used.</p></details></section>`
         : '<p class="boundary-note">This conversation was reviewed. No finding was identified in the sample. It still contributes to the reviewed-conversation total.</p>'
     }
-    <section class="detail-section"><h3>Conversation evidence</h3><p class="muted">Original sample messages · times in UTC</p><div class="evidence-list">${relevant.map((m) => messageHTML(m, f)).join("")}</div>${f && relevant.length < c.messages.length ? `<details class="context-thread"><summary>View full conversation (${c.messages.length} messages)</summary>${c.messages.map((m) => messageHTML(m, f)).join("")}</details>` : ""}</section>
+    <section class="detail-section"><h3>Conversation evidence</h3><p class="muted">The messages behind this insight</p><div class="evidence-list">${relevant.map((m) => messageHTML(m, f)).join("")}</div>${f && relevant.length < c.messages.length ? `<details class="context-thread"><summary>View full conversation (${c.messages.length} messages)</summary>${c.messages.map((m) => messageHTML(m, f)).join("")}</details>` : ""}</section>
     ${f ? actionsHTML(f) : '<div class="detail-section"><p>No action is needed for this sample conversation.</p></div>'}
   </section>`;
 }
@@ -341,8 +342,8 @@ function actionsHTML(f) {
   return `<section class="detail-section"><h3>Suggested next step</h3><p>${esc(f.suggestion)}</p>
   ${!active ? `<p class="boundary-note">${f.status === "handled" ? "Marked handled by the sample team. This does not confirm that the customer’s issue is resolved." : "Dismissed for review quality. This does not mean the customer’s experience improved."}</p>${recorded ? `<p><strong>Recorded ${f.status === "handled" ? "outcome" : "reason"}:</strong> ${esc(recorded)}</p>` : ""}` : ""}
   <div class="action-row">${active ? `<button class="button ${openDraft ? "quiet" : "primary"}" data-action="draft" data-id="${f.id}">${openDraft ? "Close draft" : f.draft ? "Draft follow-up" : "Draft follow-up"}</button>${f.status === "open" ? `<button class="button" data-action="start" data-id="${f.id}">Start working</button>` : ""}<button class="button quiet" data-action="handle" data-id="${f.id}">Mark handled</button><button class="button quiet" data-action="dismiss" data-id="${f.id}">Dismiss</button>` : `<button class="button primary" data-action="reopen" data-id="${f.id}">Reopen finding</button>${f.draft ? `<button class="button quiet" data-action="draft" data-id="${f.id}">Review draft</button>` : ""}`}</div>
-  ${openDraft ? `<div class="draft-editor"><label for="follow-up-draft">Follow-up draft</label><textarea id="follow-up-draft" data-draft="${f.id}" maxlength="20000" rows="7">${esc(f.draft)}</textarea><p class="draft-note">Editable sample draft. Replace bracketed details after checking them. Nothing is sent from this preview.</p><div class="action-row"><button class="button primary" data-action="copy" data-id="${f.id}">Copy draft</button><span class="muted" id="draft-save-status">Edits are saved in this browser when storage is available.</span></div></div>` : ""}</section>
-  <section class="detail-section"><h3>Ownership & activity</h3><label class="owner-field" for="finding-owner">Assign to<select id="finding-owner" data-owner="${f.id}">${options([["", "Unassigned"], ...TEAMMATES.map((t) => [t.id, t.name])], f.ownerId || "")}</select></label><p class="muted">Assignment changes ownership, not resolution.</p><ol class="activity-list">${
+  ${openDraft ? `<div class="draft-editor"><label for="follow-up-draft">Follow-up draft</label><textarea id="follow-up-draft" data-draft="${f.id}" maxlength="20000" rows="7">${esc(f.draft)}</textarea><p class="draft-note">Make it yours. Check bracketed details before using this draft. Nothing is sent.</p><div class="action-row"><button class="button primary" data-action="copy" data-id="${f.id}">Copy draft</button><span class="muted" id="draft-save-status">Edits stay in this browser when storage is available.</span></div></div>` : ""}</section>
+  <section class="detail-section"><h3>Ownership & activity</h3><label class="owner-field" for="finding-owner">Assign to<select id="finding-owner" data-owner="${f.id}">${options([["", "Unassigned"], ...TEAMMATES.map((t) => [t.id, t.name])], f.ownerId || "")}</select></label><p class="muted">Keep the next step with the right person.</p><ol class="activity-list">${
     [...(f.activity || f.initialActivity || [])]
       .reverse()
       .map(
@@ -361,10 +362,21 @@ function overview() {
   <p class="muted metric-note">Each count is a number of conversations. A conversation may contain several findings.</p><section class="overview-section"><div class="section-heading"><h2>Patterns worth a closer look</h2><p>Conversation counts, not performance scores.</p></div><div class="pattern-list">${data.patterns.map((p) => `<article class="pattern-row"><div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p></div><a class="button" href="${href({ destination: "priorities", conversationId: null, findingId: null, filters: { ...defaultFilters(), status: "all", ...p.filters } })}">Review conversations <span aria-hidden="true">→</span></a></article>`).join("")}</div></section>
   <section class="overview-section"><div class="section-heading"><h2>Decisions to consider</h2><p>Start with the process, then inspect the individual conversation.</p></div><div class="decision-list">${data.decisions.map((d) => `<article class="decision-row"><h3>${esc(d.title)}</h3><p>${esc(d.description)}</p><a class="text-link" href="${href({ destination: "priorities", conversationId: null, findingId: null, filters: { ...defaultFilters(), ...d.filters } })}">Inspect the evidence →</a></article>`).join("")}</div></section>`;
 }
+function selectedTools() {
+  const catalog = { gmail: "Gmail", zendesk: "Zendesk", hubspot: "HubSpot", intercom: "Intercom", salesforce: "Salesforce", slack: "Slack" };
+  let tools = [];
+  try {
+    const setup = JSON.parse(localStorage.getItem("mach1.preview.setup.v1") || "null");
+    if (Array.isArray(setup?.tools)) tools = [...new Set(setup.tools.filter((id) => typeof id === "string" && Object.hasOwn(catalog, id)))];
+  } catch { /* Preferences are optional; the sample works without storage. */ }
+  if (!tools.length) return '<p class="selected-tools-empty"><a class="text-link" href="preview.html">Choose your tools to personalize the preview →</a></p>';
+  return `<section class="selected-tools" aria-label="Your selected tools"><div><h2>Your selected tools</h2><p>Preview preferences. No accounts are connected.</p></div><div class="selected-tools-list">${tools.map((id) => `<span class="selected-tool"><img src="assets/connectors/${id}.svg" alt="" width="20" height="20">${catalog[id]}</span>`).join("")}</div><a class="text-link" href="preview.html">Edit selection →</a></section>`;
+}
 function connections() {
-  return `<div class="page-heading"><p class="eyebrow">Workspace sources</p><h1 tabindex="-1">Understand the source</h1><p>Good decisions start with a conversation you can trace.</p></div><p class="overview-brief">Every conversation here is fictional. These sample sources show how evidence could appear in a workspace; no accounts or customer data are connected.</p>
-  <div class="source-list">${SOURCES.map((s) => `<article class="source-row"><div><h2>${esc(s.name)}</h2><p>${esc(s.description)}</p></div><span class="sample-badge">Sample source</span></article>`).join("")}</div>
-  <section class="detail-section"><h2>What a real pilot would involve</h2><p>We would first agree on permitted sources, the questions to investigate, and who can review the results. Authentication, data access, retention, and approved actions need their own setup.</p><p>This concept uses prewritten findings and a frozen sample clock. It does not analyze new conversations or call an AI model.</p><button class="button primary" data-action="pilot">Analyze your conversations</button></section><p class="boundary-note">Use fictional data only. This preview has no uploads, credential entry, or live integrations.</p>`;
+  return `<div class="page-heading"><p class="eyebrow">Workspace sources</p><h1 tabindex="-1">Understand the source</h1><p>Good decisions start with a conversation you can trace.</p></div><p class="overview-brief">Your conversations, brought into focus. Explore these fictional sources to see how Mach 1 connects the dots.</p>
+  ${selectedTools()}
+  <div class="source-list">${SOURCES.map((s) => `<article class="source-row"><span class="source-art" aria-hidden="true">${iconSvg("message-square")}</span><div><h2>${esc(s.name)}</h2><p>${esc(s.description)}</p></div><span class="sample-badge">Sample source</span></article>`).join("")}</div>
+  <section class="detail-section"><h2>A workspace that fits your work.</h2><p>Choose your tools and explore a different focus. Your sample findings stay here when you return.</p><div class="action-row"><a class="button primary" href="preview.html">Personalize the preview →</a><button class="button quiet" data-action="pilot">Analyze your conversations</button></div></section><p class="boundary-note">Use fictional data only. This preview has no uploads, credential entry, or live integrations.</p>`;
 }
 function openModal(title, body, actions = "") {
   modalReturnFocus = document.activeElement;

@@ -120,6 +120,13 @@
     }
   }
 
+  // Closing supplementary interviews should also stop their audio.
+  document.querySelectorAll('.story-more').forEach((details) => {
+    details.addEventListener('toggle', () => {
+      if (!details.open) details.querySelectorAll('video').forEach((video) => video.pause());
+    });
+  });
+
   // Customer stories: custom player per .player (native controls stay as no-JS fallback)
   const fmtT = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   const players = [...document.querySelectorAll('.stories .player')];

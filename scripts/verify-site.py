@@ -28,7 +28,7 @@ class Document(HTMLParser):
 
 
 def main():
-    pages = [ROOT / name for name in ('index.html', 'sales.html', 'product.html', 'updates.html', 'app.html', 'sample.html')]
+    pages = [ROOT / name for name in ('index.html', 'sales.html', 'product.html', 'updates.html', 'app.html', 'sample.html', 'preview.html')]
     pages.extend(sorted((ROOT / 'updates').glob('*.html')))
     documents = {path: Document(path) for path in pages}
     errors = []
@@ -43,6 +43,9 @@ def main():
             target = (path.parent / unquote(parts.path)).resolve() if parts.path else path
             if not target.is_relative_to(ROOT) or not target.is_file():
                 errors.append(f'{path.relative_to(ROOT)}: missing local target {url}')
+                continue
+            # The guided preview renders these known steps in its client router.
+            if target.name == 'preview.html' and parts.fragment in ('welcome', 'tools', 'focus', 'ready'):
                 continue
             if parts.fragment and not parts.fragment.startswith('/'):
                 if target not in documents: documents[target] = Document(target)
